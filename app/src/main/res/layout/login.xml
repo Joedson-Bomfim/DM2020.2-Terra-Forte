@@ -70,9 +70,9 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="77dp"
-        android:layout_height="99dp"
-        android:layout_marginBottom="24dp"
+        android:layout_width="147dp"
+        android:layout_height="185dp"
+        android:layout_marginBottom="20dp"
         app:layout_constraintBottom_toTopOf="@+id/editText2"
         app:layout_constraintEnd_toEndOf="@+id/editText2"
         app:layout_constraintStart_toStartOf="@+id/editText2"
