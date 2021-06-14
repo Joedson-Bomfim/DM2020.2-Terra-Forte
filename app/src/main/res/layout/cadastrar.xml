@@ -53,26 +53,6 @@
             app:layout_constraintStart_toStartOf="@+id/editText14"
             app:layout_constraintTop_toBottomOf="@+id/textView14" />
 
-        <Button
-            android:id="@+id/button2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:text="Cadastrar"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/editText12"
-            app:layout_constraintStart_toStartOf="@+id/editText12"
-            app:layout_constraintTop_toBottomOf="@+id/radioButton2" />
-
-        <RadioButton
-            android:id="@+id/radioButton2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Agrônomo"
-            android:textColor="#FFFFFF"
-            app:layout_constraintStart_toStartOf="@+id/radioButton"
-            app:layout_constraintTop_toBottomOf="@+id/radioButton" />
-
         <TextView
             android:id="@+id/textView9"
             android:layout_width="174dp"
@@ -111,17 +91,8 @@
             android:text="Qual a sua função?"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="#FFFFFF"
-            app:layout_constraintStart_toStartOf="@+id/radioButton"
-            app:layout_constraintTop_toBottomOf="@+id/editText12" />
-
-        <RadioButton
-            android:id="@+id/radioButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Agricultor"
-            android:textColor="#FFFFFF"
             app:layout_constraintStart_toStartOf="@+id/editText12"
-            app:layout_constraintTop_toBottomOf="@+id/textView13" />
+            app:layout_constraintTop_toBottomOf="@+id/editText12" />
 
         <TextView
             android:id="@+id/textView14"
@@ -208,6 +179,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
+            android:textColor="#FFFFFF"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.51"
             app:layout_constraintStart_toStartOf="parent"
@@ -246,6 +218,41 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/textView"
             app:srcCompat="@drawable/icone_voltar" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="200dp"
+            android:layout_height="46dp"
+            android:layout_marginBottom="16dp"
+            android:text="Cadastrar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.534"
+            app:layout_constraintStart_toStartOf="@+id/radioGroup"
+            app:layout_constraintTop_toBottomOf="@+id/radioGroup"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@+id/textView13"
+            app:layout_constraintTop_toBottomOf="@+id/textView13">
+
+            <RadioButton
+                android:id="@+id/radioButton4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Agricultor"
+                android:textColor="#FFFFFF" />
+
+            <RadioButton
+                android:id="@+id/radioButton3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Agrônomo"
+                android:textColor="#FFFFFF" />
+        </RadioGroup>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
