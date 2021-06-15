@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import static com.example.terraforte.R.layout.login;
+
 public class MainActivity extends AppCompatActivity {
     private EditText email;
     private EditText senha;

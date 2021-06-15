@@ -18,4 +18,9 @@ public class Home extends AppCompatActivity {
         Intent intent = new Intent(this, Perfil.class);
         startActivity(intent);
     }
+
+    public void acessarReceituarios(View view) {
+        Intent intent = new Intent(this, Receituarios.class);
+        startActivity(intent);
+    }
 }

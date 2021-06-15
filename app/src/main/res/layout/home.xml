@@ -41,6 +41,7 @@
         android:layout_height="113dp"
         android:autoText="false"
         android:background="#C2009688"
+        android:onClick="acessarReceituarios"
         android:text="Receituários recebidos"
         android:textColor="#FFFFFF"
         android:textSize="20sp"
