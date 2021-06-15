@@ -19,10 +19,7 @@ public class Cadastrar extends AppCompatActivity {
     private EditText apelido;
     private EditText telefone;
     private EditText endereço;
-    private RadioButton funcao;
 
-
-    @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +33,6 @@ public class Cadastrar extends AppCompatActivity {
         apelido = findViewById(R.id.idApelido);
         telefone = findViewById(R.id.idTelefone);
         endereço = findViewById(R.id.idEndereco);
-        funcao = findViewById(R.id.radioGroup);
     }
 
     public void acessarHome(View view) {
