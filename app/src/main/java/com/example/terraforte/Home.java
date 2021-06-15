@@ -18,4 +18,9 @@ public class Home extends AppCompatActivity {
         Intent intent = new Intent(this, Perfil.class);
         startActivity(intent);
     }
+
+    public void acessarContatos(View view) {
+        Intent intent = new Intent(this, Lista_Contatos.class);
+        startActivity(intent);
+    }
 }

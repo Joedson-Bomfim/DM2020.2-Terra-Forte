@@ -26,6 +26,7 @@
         android:layout_height="113dp"
         android:autoText="false"
         android:background="#C2009688"
+        android:onClick="acessarContatos"
         android:text="Lista de contatos"
         android:textColor="@android:color/background_light"
         android:textSize="20sp"
