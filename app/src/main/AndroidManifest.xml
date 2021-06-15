@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Receituarios"></activity>
+        <activity android:name=".Enviar_Documento"></activity>
+        <activity android:name=".Receituarios" />
         <activity android:name=".Lista_Contatos" />
         <activity android:name=".A" />
         <activity android:name=".Teste" />
@@ -17,7 +18,6 @@
         <activity android:name=".Contatos" />
         <activity android:name=".Cadastrar" />
         <activity android:name=".Perfil" />
-        <activity android:name=".Enviar_Documento" />
         <activity android:name=".Home" />
         <activity android:name=".Login" />
         <activity android:name=".shit" />

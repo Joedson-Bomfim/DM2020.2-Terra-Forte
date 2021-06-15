@@ -9,6 +9,6 @@ public class Enviar_Documento extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.enviar__documento);
+        setContentView(R.layout.enviar_documento);
     }
 }
