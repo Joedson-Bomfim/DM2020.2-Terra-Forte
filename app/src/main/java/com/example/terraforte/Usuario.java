@@ -9,7 +9,7 @@ public class Usuario {
     private String apelido;
     private String telefone;
     private String endereco;
-    private boolean funcao;
+    private String funcao;
 
     public int getIdUsuario() {
         return idUsuario;
@@ -75,11 +75,11 @@ public class Usuario {
         this.endereco = endereco;
     }
 
-    public void setFuncao(String telefone) {
-        this.funcao = funcao;
-    }
-
     public String getFuncao() {
         return endereco;
+    }
+
+    public void setFuncao(String telefone) {
+        this.funcao = funcao;
     }
 }

@@ -30,7 +30,7 @@ public class UsuarioDAO extends SQLiteOpenHelper {
                 "apelido TEXT, " +
                 "telefone TEXT NOT NULL, " +
                 "endereco TEXT NOT NULL, " +
-                "funcao BOOLEAN NOT NULL); ";
+                "funcao TEXT NOT NULL); ";
         db.execSQL(sql);
     }
 
