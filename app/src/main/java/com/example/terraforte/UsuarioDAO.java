@@ -13,29 +13,27 @@ import java.util.List;
 
 public class UsuarioDAO extends SQLiteOpenHelper {
 
+    private static final String banco_usuario = "bd_usuarios";
+    private static final int versao_banco = 1;
+
+    private static final String tabela_usuario = "tb_usuario";
+    private static final String coluna_id = "id_usuario";
+    private static final String coluna_email = "tb_email";
+    private static final String coluna_senha = "tb_senha";
+    private static final String coluna_nome_usuario = "tb_nome_usuario";
+    private static final String coluna_nome_completo = "tb_nome_completo";
+    private static final String coluna_apelido = "tb_apelido";
+    private static final String coluna_telefone = "tb_telefone";
+    private static final String coluna_endereco = "tb_endereco";
+    private static final String coluna_funcao = "tb_funcao";
+
+
     public UsuarioDAO(Context context) {
-        super(context, "Agenda", null, 1);
+        super(context, banco_usuario, null, versao_banco);
     }
-
-    //public UsuarioDAO(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
-    //    super(context, name, factory, version);
-    //}
-
-
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String sql = "CREATE TABLE IF NOT EXISTS usuario (" +
-                "idUsuario INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
-                "email TEXT NOT NULL, " +
-                "senha TEXT NOT NULL, " +
-                "nomeusuario TEXT NOT NULL, " +
-                "nomecompleto TEXT NOT NULL, " +
-                "apelido TEXT, " +
-                "telefone TEXT NOT NULL, " +
-                "endereco TEXT NOT NULL, " +
-                "funcao TEXT NOT NULL); ";
-        db.execSQL(sql);
     }
 
     @Override
@@ -58,29 +56,5 @@ public class UsuarioDAO extends SQLiteOpenHelper {
         dados.put("funcao", usuario.getFuncao());
 
         conexao.insertOrThrow("usuario", null, dados);
-    }
-
-    public List<Usuario> buscarTodos() {
-        SQLiteDatabase conexao = getReadableDatabase();
-        Cursor cursor = conexao.query("usuario", null, null, null, null, null, null);
-
-        List<Usuario> lstContatos = new ArrayList<Usuario>();
-
-        if (cursor.getCount() > 0) {
-            cursor.moveToFirst();
-
-            do {
-                Usuario usuario = new Usuario();
-
-                usuario.setEmail(cursor.getString(cursor.getColumnIndex("email")));
-                usuario.setNomeUsuario(cursor.getString(cursor.getColumnIndex("nomeUsuario")));
-                usuario.setEndereco(cursor.getString(cursor.getColumnIndex("endereco")));
-                usuario.setTelefone(cursor.getString(cursor.getColumnIndex("telefone")));
-
-                lstContatos.add(usuario);
-            } while (cursor.moveToNext());
-        }
-
-        return lstContatos;
     }
 }

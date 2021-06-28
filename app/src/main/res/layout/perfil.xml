@@ -51,7 +51,7 @@
         app:layout_constraintStart_toEndOf="@+id/textView22" />
 
     <TextView
-        android:id="@+id/textView17"
+        android:id="@+id/idNomeUsuarioPerfil"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Nome de usuário"
@@ -194,6 +194,7 @@
         app:srcCompat="@drawable/ic_account_circle_black_24dp" />
 
     <ListView
+        android:id="@+id/idListView"
         android:layout_width="409dp"
         android:layout_height="194dp"
         android:layout_marginStart="1dp"
