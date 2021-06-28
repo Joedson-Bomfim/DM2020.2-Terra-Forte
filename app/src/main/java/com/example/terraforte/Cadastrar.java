@@ -53,6 +53,7 @@ public class Cadastrar extends AppCompatActivity {
             usuario.setApelido(String.valueOf(apelido.getText()));
             usuario.setTelefone(String.valueOf(telefone.getText()));
             usuario.setEndereco(String.valueOf(endereco.getText()));
+            usuario.setEndereco(String.valueOf(endereco.getText()));
             usuario.setFuncao(String.valueOf(radioGroup.getCheckedRadioButtonId()));
 
             UsuarioDAO usuarioDAO = new UsuarioDAO(getApplicationContext());

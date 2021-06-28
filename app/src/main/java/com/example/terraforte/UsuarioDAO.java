@@ -2,10 +2,14 @@ package com.example.terraforte;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class UsuarioDAO extends SQLiteOpenHelper {
 
@@ -53,6 +57,30 @@ public class UsuarioDAO extends SQLiteOpenHelper {
         dados.put("endereco", usuario.getEndereco());
         dados.put("funcao", usuario.getFuncao());
 
-        conexao.insertOrThrow("contato", null, dados);
+        conexao.insertOrThrow("usuario", null, dados);
+    }
+
+    public List<Usuario> buscarTodos() {
+        SQLiteDatabase conexao = getReadableDatabase();
+        Cursor cursor = conexao.query("usuario", null, null, null, null, null, null);
+
+        List<Usuario> lstContatos = new ArrayList<Usuario>();
+
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+
+            do {
+                Usuario usuario = new Usuario();
+
+                usuario.setEmail(cursor.getString(cursor.getColumnIndex("email")));
+                usuario.setNomeUsuario(cursor.getString(cursor.getColumnIndex("nomeUsuario")));
+                usuario.setEndereco(cursor.getString(cursor.getColumnIndex("endereco")));
+                usuario.setTelefone(cursor.getString(cursor.getColumnIndex("telefone")));
+
+                lstContatos.add(usuario);
+            } while (cursor.moveToNext());
+        }
+
+        return lstContatos;
     }
 }
