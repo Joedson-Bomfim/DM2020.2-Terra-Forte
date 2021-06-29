@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -44,9 +45,18 @@ public class Cadastrar extends AppCompatActivity {
 
         radioGroup = findViewById(R.id.radioGroup);
 
+        //Criar OK
         /*Teste CRUD*/
         db.addUsuario(new Usuario("teste@gmail.com","123","teste","teste Testando","t","222333","rua teste","agricultor"));
         Toast.makeText(Cadastrar.this, "Salvo com sucesso", Toast.LENGTH_LONG).show();
+
+        //Apagar OK
+        /*Usuario usuario = new Usuario();
+        usuario.setIdUsuario(1);
+        db.apagarUsuario(usuario);*/
+
+        Usuario usuario = db.selecionarUsuario(1);
+        Log.d("Usuario selecionado", "Id: " + usuario.getIdUsuario() + "email: " + usuario.getEmail() + "senha: " + usuario.getSenha() + "nome usuario: " + usuario.getNomeUsuario() + "nome completo: " + usuario.getNomeCompleto() + "Apelido: " + usuario.getApelido() + "Telefone: " + usuario.getTelefone() + "Endereço: " + usuario.getEndereco() + "Função: " + usuario.getFuncao());
     }
 
     public void acessarHome(View view) {

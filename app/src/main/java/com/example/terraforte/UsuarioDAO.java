@@ -56,8 +56,8 @@ public class UsuarioDAO extends SQLiteOpenHelper {
 
          values.put(coluna_email, usuario.getEmail());
          values.put(coluna_senha, usuario.getSenha());
-         values.put(coluna_nome_completo, usuario.getNomeCompleto());
          values.put(coluna_nome_usuario, usuario.getNomeUsuario());
+         values.put(coluna_nome_completo, usuario.getNomeCompleto());
          values.put(coluna_apelido, usuario.getApelido());
          values.put(coluna_telefone, usuario.getTelefone());
          values.put(coluna_endereco, usuario.getEndereco());
@@ -65,5 +65,28 @@ public class UsuarioDAO extends SQLiteOpenHelper {
 
         db.insert(tabela_usuario, null, values);
         db.close();
+     }
+
+     void apagarUsuario(Usuario usuario){
+         SQLiteDatabase db = this.getWritableDatabase();
+
+         db.delete(tabela_usuario, coluna_id + "=?", new String[] {String.valueOf(usuario.getIdUsuario())});
+         db.close();
+     }
+
+     Usuario selecionarUsuario(int id){
+         SQLiteDatabase db = this.getReadableDatabase();
+
+         Cursor cursor = db.query(tabela_usuario, new String[] {coluna_id, coluna_email, coluna_senha, coluna_nome_usuario, coluna_nome_completo, coluna_apelido, coluna_telefone, coluna_endereco, coluna_funcao}, coluna_id + " =?", new String[] {String.valueOf(id)}, null, null, null, null);
+
+         if(cursor != null){
+             cursor.moveToFirst();
+         }
+
+         Usuario usuario = new Usuario(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2),
+                 cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6),
+                 cursor.getString(7), cursor.getString(8));
+
+         return usuario;
      }
 }

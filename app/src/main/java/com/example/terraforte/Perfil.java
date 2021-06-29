@@ -22,6 +22,10 @@ public class Perfil extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.perfil);
 
+        Usuario usuario = new Usuario();
+        usuario.setIdUsuario(1);
+
+
     }
 
     @Override
