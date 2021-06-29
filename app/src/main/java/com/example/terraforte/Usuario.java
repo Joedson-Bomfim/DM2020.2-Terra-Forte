@@ -1,6 +1,8 @@
 package com.example.terraforte;
 
-public class Usuario {
+import java.io.Serializable;
+
+public class Usuario implements Serializable {
     private int idUsuario;
     private String email;
     private String senha;
@@ -10,33 +12,6 @@ public class Usuario {
     private String telefone;
     private String endereco;
     private String funcao;
-
-    public Usuario () {
-
-    }
-
-    public Usuario (String _email, String _senha, String _nomeUsuario, String _nomeCompleto, String _apelido, String _telefone, String _endereco, String _funcao){
-        this.email = _email;
-        this.senha = _senha;
-        this.nomeUsuario = _nomeUsuario;
-        this.nomeCompleto = _nomeCompleto;
-        this.apelido = _apelido;
-        this.telefone = _telefone;
-        this.endereco = _endereco;
-        this.funcao = _funcao;
-    }
-
-    public Usuario (int _idUsuario, String _email, String _senha, String _nomeUsuario, String _nomeCompleto, String _apelido, String _telefone, String _endereco, String _funcao){
-        this.idUsuario = _idUsuario;
-        this.email = _email;
-        this.senha = _senha;
-        this.nomeUsuario = _nomeUsuario;
-        this.nomeCompleto = _nomeCompleto;
-        this.apelido = _apelido;
-        this.telefone = _telefone;
-        this.endereco = _endereco;
-        this.funcao = _funcao;
-    }
 
     public int getIdUsuario() {
         return idUsuario;
@@ -103,10 +78,10 @@ public class Usuario {
     }
 
     public String getFuncao() {
-        return endereco;
+        return funcao;
     }
 
-    public void setFuncao(String telefone) {
+    public void setFuncao(String funcao) {
         this.funcao = funcao;
     }
 }

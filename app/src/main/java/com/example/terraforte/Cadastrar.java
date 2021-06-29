@@ -7,11 +7,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Cadastrar extends AppCompatActivity {
     private EditText email;
@@ -25,8 +29,6 @@ public class Cadastrar extends AppCompatActivity {
 
     private RadioGroup radioGroup;
     private RadioButton radioButtonEscolhido;
-
-    UsuarioDAO db = new UsuarioDAO(this);
 
     @SuppressLint("WrongConstant")
     @Override
@@ -44,21 +46,9 @@ public class Cadastrar extends AppCompatActivity {
         endereco = findViewById(R.id.idEnderecoCadastro);
 
         radioGroup = findViewById(R.id.radioGroup);
-
-        //Criar OK
-        /*Teste CRUD*/
-        db.addUsuario(new Usuario("teste@gmail.com","123","teste","teste Testando","t","222333","rua teste","agricultor"));
-        Toast.makeText(Cadastrar.this, "Salvo com sucesso", Toast.LENGTH_LONG).show();
-
-        //Apagar OK
-        /*Usuario usuario = new Usuario();
-        usuario.setIdUsuario(1);
-        db.apagarUsuario(usuario);*/
-
-        Usuario usuario = db.selecionarUsuario(1);
-        Log.d("Usuario selecionado", "Id: " + usuario.getIdUsuario() + "email: " + usuario.getEmail() + "senha: " + usuario.getSenha() + "nome usuario: " + usuario.getNomeUsuario() + "nome completo: " + usuario.getNomeCompleto() + "Apelido: " + usuario.getApelido() + "Telefone: " + usuario.getTelefone() + "Endereço: " + usuario.getEndereco() + "Função: " + usuario.getFuncao());
     }
 
+    /*
     public void acessarHome(View view) {
         if(email.getText().toString().isEmpty()){
             Toast.makeText(Cadastrar.this, "Preencha o email!", Toast.LENGTH_SHORT).show();
@@ -66,5 +56,17 @@ public class Cadastrar extends AppCompatActivity {
             Intent intent = new Intent(this, Home.class);
             startActivity(intent);
         }
+    }*/
+
+    public void salvar(View view) {
+        Usuario u = new Usuario();
+        u.setEmail(email.getText().toString());
+        u.setSenha(senha.getText().toString());
+        u.setNomeUsuario(nome_usuario.getText().toString());
+        u.setNomeCompleto(nome_completo.getText().toString());
+        u.setApelido(apelido.getText().toString());
+        u.setTelefone(telefone.getText().toString());
+        u.setEndereco(endereco.getText().toString());
+
     }
 }
