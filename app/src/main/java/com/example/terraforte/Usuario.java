@@ -11,6 +11,33 @@ public class Usuario {
     private String endereco;
     private String funcao;
 
+    public Usuario () {
+
+    }
+
+    public Usuario (String _email, String _senha, String _nomeUsuario, String _nomeCompleto, String _apelido, String _telefone, String _endereco, String _funcao){
+        this.email = _email;
+        this.senha = _senha;
+        this.nomeUsuario = _nomeUsuario;
+        this.nomeCompleto = _nomeCompleto;
+        this.apelido = _apelido;
+        this.telefone = _telefone;
+        this.endereco = _endereco;
+        this.funcao = _funcao;
+    }
+
+    public Usuario (int _idUsuario, String _email, String _senha, String _nomeUsuario, String _nomeCompleto, String _apelido, String _telefone, String _endereco, String _funcao){
+        this.idUsuario = _idUsuario;
+        this.email = _email;
+        this.senha = _senha;
+        this.nomeUsuario = _nomeUsuario;
+        this.nomeCompleto = _nomeCompleto;
+        this.apelido = _apelido;
+        this.telefone = _telefone;
+        this.endereco = _endereco;
+        this.funcao = _funcao;
+    }
+
     public int getIdUsuario() {
         return idUsuario;
     }

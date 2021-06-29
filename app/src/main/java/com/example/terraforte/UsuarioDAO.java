@@ -27,13 +27,20 @@ public class UsuarioDAO extends SQLiteOpenHelper {
     private static final String coluna_endereco = "tb_endereco";
     private static final String coluna_funcao = "tb_funcao";
 
-
     public UsuarioDAO(Context context) {
         super(context, banco_usuario, null, versao_banco);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        String query_coluna = "create table " + tabela_usuario + "("
+                + coluna_id + " interger primary key,"
+                + coluna_email + " text," + coluna_senha + " text,"
+                + coluna_nome_completo + " text," + coluna_nome_usuario + " text,"
+                + coluna_apelido + " text," + coluna_telefone + " text,"
+                + coluna_endereco + " text," + coluna_funcao + " text)";
+
+        db.execSQL(query_coluna);
     }
 
     @Override
@@ -41,20 +48,22 @@ public class UsuarioDAO extends SQLiteOpenHelper {
 
     }
 
-    public void cadastrar(Usuario usuario) {
-        SQLiteDatabase conexao = getWritableDatabase();
+    /*CRUD abaixo*/
+     void addUsuario(Usuario usuario) {
+         SQLiteDatabase db = this.getWritableDatabase();
 
-        ContentValues dados = new ContentValues();
+         ContentValues values = new ContentValues();
 
-        dados.put("email", usuario.getEmail());
-        dados.put("senha", usuario.getSenha());
-        dados.put("nomeUsuario", usuario.getNomeUsuario());
-        dados.put("nomeCompleto", usuario.getNomeCompleto());
-        dados.put("apelido", usuario.getApelido());
-        dados.put("telefone", usuario.getTelefone());
-        dados.put("endereco", usuario.getEndereco());
-        dados.put("funcao", usuario.getFuncao());
+         values.put(coluna_email, usuario.getEmail());
+         values.put(coluna_senha, usuario.getSenha());
+         values.put(coluna_nome_completo, usuario.getNomeCompleto());
+         values.put(coluna_nome_usuario, usuario.getNomeUsuario());
+         values.put(coluna_apelido, usuario.getApelido());
+         values.put(coluna_telefone, usuario.getTelefone());
+         values.put(coluna_endereco, usuario.getEndereco());
+         values.put(coluna_funcao, usuario.getFuncao());
 
-        conexao.insertOrThrow("usuario", null, dados);
-    }
+        db.insert(tabela_usuario, null, values);
+        db.close();
+     }
 }

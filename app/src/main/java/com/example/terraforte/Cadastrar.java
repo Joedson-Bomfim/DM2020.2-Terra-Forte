@@ -24,6 +24,8 @@ public class Cadastrar extends AppCompatActivity {
     private RadioGroup radioGroup;
     private RadioButton radioButtonEscolhido;
 
+    UsuarioDAO db = new UsuarioDAO(this);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,27 +41,16 @@ public class Cadastrar extends AppCompatActivity {
         endereco = findViewById(R.id.idEnderecoCadastro);
 
         radioGroup = findViewById(R.id.radioGroup);
+
+        /*Teste CRUD*/
+        db.addUsuario(new Usuario("teste@gmail.com","123","teste","teste Testando","t","222333","rua teste","agricultor"));
+
+        Toast.makeText(Cadastrar.this, "Salvo com sucesso", Toast.LENGTH_LONG) ;
     }
 
     public void acessarHome(View view) {
         if(email.getText().toString().isEmpty()){
             Toast.makeText(Cadastrar.this, "Preencha o email!", Toast.LENGTH_SHORT).show();
-        } else {
-            Usuario usuario = new Usuario();
-            usuario.setEmail(String.valueOf(email.getText()));
-            usuario.setSenha(String.valueOf(senha.getText()));
-            usuario.setNomeUsuario(String.valueOf(nome_usuario.getText()));
-            usuario.setNomeCompleto(String.valueOf(nome_completo.getText()));
-            usuario.setApelido(String.valueOf(apelido.getText()));
-            usuario.setTelefone(String.valueOf(telefone.getText()));
-            usuario.setEndereco(String.valueOf(endereco.getText()));
-            usuario.setEndereco(String.valueOf(endereco.getText()));
-            usuario.setFuncao(String.valueOf(radioGroup.getCheckedRadioButtonId()));
-
-            UsuarioDAO usuarioDAO = new UsuarioDAO(getApplicationContext());
-            usuarioDAO.cadastrar(usuario);
-            usuarioDAO.close();
-
             Intent intent = new Intent(this, Home.class);
             startActivity(intent);
         }
