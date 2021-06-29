@@ -2,6 +2,7 @@ package com.example.terraforte;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -26,6 +27,7 @@ public class Cadastrar extends AppCompatActivity {
 
     UsuarioDAO db = new UsuarioDAO(this);
 
+    @SuppressLint("WrongConstant")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,12 +47,13 @@ public class Cadastrar extends AppCompatActivity {
         /*Teste CRUD*/
         db.addUsuario(new Usuario("teste@gmail.com","123","teste","teste Testando","t","222333","rua teste","agricultor"));
 
-        Toast.makeText(Cadastrar.this, "Salvo com sucesso", Toast.LENGTH_LONG) ;
+        Toast.makeText(Cadastrar.this, "Salvo com sucesso", Toast.LENGTH_LONG);
     }
 
     public void acessarHome(View view) {
         if(email.getText().toString().isEmpty()){
             Toast.makeText(Cadastrar.this, "Preencha o email!", Toast.LENGTH_SHORT).show();
+        } else {
             Intent intent = new Intent(this, Home.class);
             startActivity(intent);
         }
