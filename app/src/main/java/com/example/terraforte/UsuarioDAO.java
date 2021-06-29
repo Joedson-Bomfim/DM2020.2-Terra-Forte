@@ -34,11 +34,11 @@ public class UsuarioDAO extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String query_coluna = "create table " + tabela_usuario + "("
-                + coluna_id + " interger primary key,"
-                + coluna_email + " text," + coluna_senha + " text,"
-                + coluna_nome_completo + " text," + coluna_nome_usuario + " text,"
-                + coluna_apelido + " text," + coluna_telefone + " text,"
-                + coluna_endereco + " text," + coluna_funcao + " text)";
+                + coluna_id + " interger primary key, "
+                + coluna_email + " text, " + coluna_senha + " text, "
+                + coluna_nome_completo + " text, " + coluna_nome_usuario + " text, "
+                + coluna_apelido + " text, " + coluna_telefone + " text, "
+                + coluna_endereco + " text, " + coluna_funcao + " text)";
 
         db.execSQL(query_coluna);
     }

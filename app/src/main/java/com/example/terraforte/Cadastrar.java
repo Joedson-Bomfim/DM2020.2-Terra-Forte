@@ -46,8 +46,7 @@ public class Cadastrar extends AppCompatActivity {
 
         /*Teste CRUD*/
         db.addUsuario(new Usuario("teste@gmail.com","123","teste","teste Testando","t","222333","rua teste","agricultor"));
-
-        Toast.makeText(Cadastrar.this, "Salvo com sucesso", Toast.LENGTH_LONG);
+        Toast.makeText(Cadastrar.this, "Salvo com sucesso", Toast.LENGTH_LONG).show();
     }
 
     public void acessarHome(View view) {
