@@ -19,13 +19,22 @@ import java.util.List;
 
 public class Perfil extends AppCompatActivity {
 
-    ArrayAdapter<String> adapter;
-    ArrayList<String> arrayList;
+    private ListView listView;
+    private UsuarioDAO dao;
+    private List<Usuario> usuarios;
+    private List<Usuario> usuariosFiltrados = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.perfil);
+
+        listView = findViewById(R.id.idListaUsuarios);
+        dao = new UsuarioDAO(this);
+        usuarios = dao.obterTodos();
+        usuariosFiltrados.addAll(usuarios);
+        ArrayAdapter<Usuario> adaptador = new ArrayAdapter<Usuario>(this, android.R.layout.simple_list_item_1, usuarios);
+        listView.setAdapter(adaptador);
     }
 
     @Override

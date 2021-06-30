@@ -84,4 +84,10 @@ public class Usuario implements Serializable {
     public void setFuncao(String funcao) {
         this.funcao = funcao;
     }
+
+
+    @Override
+    public String toString() {
+         return email;
+    }
 }
