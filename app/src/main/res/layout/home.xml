@@ -7,7 +7,7 @@
     android:background="@drawable/background">
 
     <SearchView
-        android:id="@+id/searchView"
+        android:id="@+id/idProcurarContato"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -16,9 +16,10 @@
         android:inputType="text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.329"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.049" />
+        app:layout_constraintVertical_bias="0.05" />
 
     <Button
         android:id="@+id/button6"
@@ -53,28 +54,15 @@
         app:layout_constraintVertical_bias="0.299" />
 
     <ImageButton
-        android:id="@+id/imageButton"
-        android:layout_width="64dp"
-        android:layout_height="48dp"
-        android:background="#00FFFFFF"
-        android:scaleType="centerCrop"
-        app:layout_constraintBottom_toBottomOf="@+id/searchView"
-        app:layout_constraintEnd_toStartOf="@+id/searchView"
-        app:srcCompat="@drawable/icone_menu" />
-
-    <ImageButton
         android:id="@+id/imageButton6"
         android:layout_width="66dp"
         android:layout_height="64dp"
-        android:layout_marginEnd="52dp"
         android:background="#00FFFFFF"
         android:onClick="acessarPerfil"
         android:scaleType="fitCenter"
-        app:layout_constraintBottom_toBottomOf="@+id/searchView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/searchView"
-        app:layout_constraintTop_toTopOf="@+id/searchView"
+        app:layout_constraintBottom_toBottomOf="@+id/idProcurarContato"
+        app:layout_constraintStart_toEndOf="@+id/idProcurarContato"
+        app:layout_constraintTop_toTopOf="@+id/idProcurarContato"
         app:srcCompat="@drawable/ic_account_circle_black_24dp" />
 
     <TextView
@@ -83,7 +71,7 @@
         android:layout_height="wrap_content"
         android:text="usuário"
         app:layout_constraintEnd_toEndOf="@+id/imageButton6"
-        app:layout_constraintStart_toEndOf="@+id/searchView"
+        app:layout_constraintStart_toEndOf="@+id/idProcurarContato"
         app:layout_constraintTop_toBottomOf="@+id/imageButton6" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

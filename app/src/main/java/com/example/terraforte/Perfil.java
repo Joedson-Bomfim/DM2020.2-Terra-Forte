@@ -33,12 +33,16 @@ public class Perfil extends AppCompatActivity {
         dao = new UsuarioDAO(this);
         usuarios = dao.obterTodos();
         usuariosFiltrados.addAll(usuarios);
-        ArrayAdapter<Usuario> adaptador = new ArrayAdapter<Usuario>(this, android.R.layout.simple_list_item_1, usuarios);
+        ArrayAdapter<Usuario> adaptador = new ArrayAdapter<Usuario>(this, android.R.layout.simple_list_item_1, usuariosFiltrados);
         listView.setAdapter(adaptador);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        usuarios = dao.obterTodos();
+        usuariosFiltrados.clear();
+        usuariosFiltrados.addAll(usuarios);
+        listView.invalidateViews();
     }
 }
