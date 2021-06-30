@@ -30,6 +30,8 @@ public class Cadastrar extends AppCompatActivity {
     private RadioGroup radioGroup;
     private RadioButton radioButtonEscolhido;
 
+    private UsuarioDAO dao;
+
     @SuppressLint("WrongConstant")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,27 +48,36 @@ public class Cadastrar extends AppCompatActivity {
         endereco = findViewById(R.id.idEnderecoCadastro);
 
         radioGroup = findViewById(R.id.radioGroup);
+
+        int idradioButtonEscolhido = radioGroup.getCheckedRadioButtonId();
+
+        radioButtonEscolhido = findViewById(idradioButtonEscolhido);
+
+        dao = new UsuarioDAO(this);
     }
 
-    /*
     public void acessarHome(View view) {
         if(email.getText().toString().isEmpty()){
             Toast.makeText(Cadastrar.this, "Preencha o email!", Toast.LENGTH_SHORT).show();
         } else {
+            Usuario u = new Usuario();
+            u.setEmail(email.getText().toString());
+            u.setSenha(senha.getText().toString());
+            u.setNomeUsuario(nome_usuario.getText().toString());
+            u.setNomeCompleto(nome_completo.getText().toString());
+            u.setApelido(apelido.getText().toString());
+            u.setTelefone(telefone.getText().toString());
+            u.setEndereco(endereco.getText().toString());
+            u.setEndereco(endereco.getText().toString());
+            long id = dao.inserir(u);
+            Toast.makeText(this, "Usuario inserido com o id: " + id, Toast.LENGTH_LONG).show();
+
             Intent intent = new Intent(this, Home.class);
             startActivity(intent);
         }
-    }*/
-
-    public void salvar(View view) {
-        Usuario u = new Usuario();
-        u.setEmail(email.getText().toString());
-        u.setSenha(senha.getText().toString());
-        u.setNomeUsuario(nome_usuario.getText().toString());
-        u.setNomeCompleto(nome_completo.getText().toString());
-        u.setApelido(apelido.getText().toString());
-        u.setTelefone(telefone.getText().toString());
-        u.setEndereco(endereco.getText().toString());
-
     }
+
+    //public void salvar(View view) {
+
+    //}
 }
