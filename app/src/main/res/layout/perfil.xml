@@ -8,7 +8,7 @@
     android:background="@drawable/gradient">
 
     <TextView
-        android:id="@+id/textView21"
+        android:id="@+id/idNomeCompletoPerfil"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Nome Completo"
@@ -39,10 +39,10 @@
         android:text="USUÁRIO: "
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView21" />
+        app:layout_constraintTop_toBottomOf="@+id/idNomeCompletoPerfil" />
 
     <TextView
-        android:id="@+id/textView26"
+        android:id="@+id/idApelidoPerfil"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Apelido da pessoa"
@@ -82,7 +82,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView23" />
 
     <TextView
-        android:id="@+id/textView27"
+        android:id="@+id/idEmailPerfil"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Email da pessoa"
@@ -92,7 +92,7 @@
         app:layout_constraintStart_toEndOf="@+id/textView23" />
 
     <TextView
-        android:id="@+id/textView24"
+        android:id="@+id/idTelefonePerfil"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Telefone da pessoa"
@@ -102,7 +102,7 @@
         app:layout_constraintStart_toEndOf="@+id/textView28" />
 
     <TextView
-        android:id="@+id/textView29"
+        android:id="@+id/idEnderecoPerfil"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Endereço da pessoa"
@@ -112,7 +112,7 @@
         app:layout_constraintStart_toEndOf="@+id/textView25" />
 
     <TextView
-        android:id="@+id/textView34"
+        android:id="@+id/idFuncaoPerfil"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Status da pessoa"
@@ -122,7 +122,7 @@
         app:layout_constraintStart_toEndOf="@+id/textView33" />
 
     <TextView
-        android:id="@+id/textView35"
+        android:id="@+id/idSenhaPerfil"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Trocar senha"
@@ -146,7 +146,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="STATUS: "
+        android:text="FUNÇÃO: "
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/textView25"
         app:layout_constraintTop_toBottomOf="@+id/textView25" />
@@ -177,7 +177,7 @@
         android:layout_width="135dp"
         android:layout_height="37dp"
         android:layout_marginTop="24dp"
-        android:text="Salvar Alterações"
+        android:text="editar"
         android:textColor="#297B2C"
         android:textSize="10sp"
         app:layout_constraintStart_toStartOf="@+id/textView30"
