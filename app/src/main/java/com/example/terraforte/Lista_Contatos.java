@@ -24,8 +24,8 @@ public class Lista_Contatos extends AppCompatActivity {
         dao = new UsuarioDAO(this);
         usuarios = dao.obterTodos();
         usuariosFiltrados.addAll(usuarios);
-        ArrayAdapter<Usuario> adaptador = new ArrayAdapter<Usuario>(this, android.R.layout.simple_list_item_1, usuariosFiltrados);
-        //ContatoAdapter adaptador = new ContatoAdapter(this, usuariosFiltrados);
+        //ArrayAdapter<Usuario> adaptador = new ArrayAdapter<Usuario>(this, android.R.layout.simple_list_item_1, usuariosFiltrados);
+        ContatoAdapter adaptador = new ContatoAdapter(this, usuariosFiltrados);
         listView.setAdapter(adaptador);
     }
 

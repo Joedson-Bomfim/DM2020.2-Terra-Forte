@@ -40,8 +40,8 @@ public class ContatoAdapter extends BaseAdapter {
         TextView funcao = v.findViewById(R.id.idFuncaoLista);
         Usuario u = usuarios.get(i);
         nome_completo.setText(u.getNomeCompleto());
-        nome_completo.setText(u.getApelido());
-        nome_completo.setText(u.getTelefone());
+        apelido.setText(u.getApelido());
+        funcao.setText(u.getTelefone());
 
         return v;
     }
