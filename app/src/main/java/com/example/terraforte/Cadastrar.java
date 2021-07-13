@@ -1,9 +1,11 @@
 package com.example.terraforte;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +15,12 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,25 +64,34 @@ public class Cadastrar extends AppCompatActivity {
         dao = new UsuarioDAO(this);
     }
 
-    public void acessarHome(View view) {
-        if(email.getText().toString().isEmpty()){
+    public void acessarHome(View v) {
+        if(email.getText().toString().isEmpty() || senha.getText().toString().isEmpty()){
             Toast.makeText(Cadastrar.this, "Preencha o email!", Toast.LENGTH_SHORT).show();
         } else {
-            Usuario u = new Usuario();
-            u.setEmail(email.getText().toString());
-            u.setSenha(senha.getText().toString());
-            u.setNomeUsuario(nome_usuario.getText().toString());
-            u.setNomeCompleto(nome_completo.getText().toString());
-            u.setApelido(apelido.getText().toString());
-            u.setTelefone(telefone.getText().toString());
-            u.setEndereco(endereco.getText().toString());
-            u.setEndereco(endereco.getText().toString());
-            long id = dao.inserir(u);
-            Toast.makeText(this, "Usuario inserido com o id: " + id, Toast.LENGTH_LONG).show();
-
-            Intent intent = new Intent(this, Home.class);
-            startActivity(intent);
+            CadastrarUsuario(v);
         }
+    }
+
+    private void CadastrarUsuario(View v) {
+        String edit_email = email.getText().toString();
+        String edit_senha = senha.getText().toString();
+
+        FirebaseAuth.getInstance().createUserWithEmailAndPassword(edit_email,edit_senha).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(task.isSuccessful()) {
+                    Snackbar snackbar = Snackbar.make(v, "Cadastrado com sucesso",Snackbar.LENGTH_SHORT);
+                    snackbar.setBackgroundTint(Color.GREEN);
+                    snackbar.setTextColor(Color.WHITE);
+                    snackbar.show();
+                }else {
+                    Snackbar snackbar = Snackbar.make(v, "Problema no cadastro",Snackbar.LENGTH_SHORT);
+                    snackbar.setBackgroundTint(Color.RED);
+                    snackbar.setTextColor(Color.WHITE);
+                    snackbar.show();
+                }
+            }
+        });
     }
 
     //public void salvar(View view) {
