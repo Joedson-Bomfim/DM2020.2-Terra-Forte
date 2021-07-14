@@ -80,6 +80,8 @@ public class Cadastrar extends AppCompatActivity {
             Toast.makeText(Cadastrar.this, "Preencha o email!", Toast.LENGTH_SHORT).show();
         } else {
             CadastrarUsuario(v);
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
         }
     }
 
