@@ -21,6 +21,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
+import com.google.firebase.auth.FirebaseUser;
 
 import static com.example.terraforte.R.layout.login;
 
@@ -76,11 +77,23 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        FirebaseUser usuarioAtual = FirebaseAuth.getInstance().getCurrentUser();
+
+        if(usuarioAtual != null) {
+            TelaPrincipal();
+        }
+    }
+
     private void TelaPrincipal() {
         Intent intent = new Intent(MainActivity.this, Home.class);
         startActivity(intent);
         finish();
     }
+
 
     public void criarConta(View view) {
         Intent intent = new Intent(this, Cadastrar.class);
