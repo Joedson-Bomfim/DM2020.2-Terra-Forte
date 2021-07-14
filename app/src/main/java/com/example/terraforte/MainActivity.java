@@ -27,6 +27,7 @@ import static com.example.terraforte.R.layout.login;
 public class MainActivity extends AppCompatActivity {
     private EditText email;
     private EditText senha;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
         email = findViewById(R.id.idEmailLogin);
         senha = findViewById(R.id.idSenhaLogin);
+        progressBar = findViewById(R.id.pb_progressBar_login);
     }
 
     public void acessarHome(View view) {
@@ -53,8 +55,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()) {
-                    Intent intent = new Intent(MainActivity.this, Home.class);
-                    startActivity(intent);
+                    progressBar.setVisibility(View.VISIBLE);
+
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            TelaPrincipal();
+                        }
+                    }, 3000);
                 }else {
                     String erro;
                     try {
@@ -66,6 +74,12 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void TelaPrincipal() {
+        Intent intent = new Intent(MainActivity.this, Home.class);
+        startActivity(intent);
+        finish();
     }
 
     public void criarConta(View view) {
