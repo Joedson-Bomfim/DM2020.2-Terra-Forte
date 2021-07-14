@@ -213,7 +213,7 @@
             android:layout_height="46dp"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="8dp"
-            android:onClick="acessarHome"
+            android:onClick="acessarLogin"
             android:text="Cadastrar"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
