@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
                         public void run() {
                             TelaPrincipal();
                         }
-                    }, 3000);
+                    }, 2000);
                 }else {
                     String erro;
                     try {

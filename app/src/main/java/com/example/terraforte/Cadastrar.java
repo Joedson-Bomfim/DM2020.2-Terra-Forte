@@ -51,7 +51,7 @@ public class Cadastrar extends AppCompatActivity {
 
     String usuarioID;
 
-    @SuppressLint("WrongConstant")
+    @SuppressLint("WrongConstant") 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,17 +71,18 @@ public class Cadastrar extends AppCompatActivity {
         int idradioButtonEscolhido = radioGroup.getCheckedRadioButtonId();
 
         radioButtonEscolhido = findViewById(idradioButtonEscolhido);
-
-        dao = new UsuarioDAO(this);
     }
 
     public void acessarLogin(View v) {
-        if(email.getText().toString().isEmpty() || senha.getText().toString().isEmpty()){
-            Toast.makeText(Cadastrar.this, "Preencha o email!", Toast.LENGTH_SHORT).show();
-        } else {
+        if(email.getText().toString().isEmpty() || senha.getText().toString().isEmpty() || senha_confirmar.getText().toString().isEmpty() || nome_completo.getText().toString().isEmpty() || nome_usuario.getText().toString().isEmpty()){
+            Toast.makeText(Cadastrar.this, "Apenas o apelido, telefone e endereço podem ser deixados em branco!", Toast.LENGTH_LONG).show();
+        } else if(senha.getText().toString().equals(senha_confirmar.getText().toString())) {
             CadastrarUsuario(v);
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
+            finish();
+        } else {
+            Toast.makeText(Cadastrar.this, "Verifique senha e confirmar senha novamente", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -95,10 +96,7 @@ public class Cadastrar extends AppCompatActivity {
                 if(task.isSuccessful()) {
                     SalvarDadosUsuario();
 
-                    Snackbar snackbar = Snackbar.make(v, "Cadastrado com sucesso",Snackbar.LENGTH_LONG);
-                    snackbar.setBackgroundTint(Color.GREEN);
-                    snackbar.setTextColor(Color.WHITE);
-                    snackbar.show();
+                    Toast.makeText(Cadastrar.this, "Você foi cadastrado com sucesso", Toast.LENGTH_SHORT).show();
                 }else {
                     String erro;
                     try {
@@ -112,10 +110,7 @@ public class Cadastrar extends AppCompatActivity {
                     }catch (Exception e){
                         erro = "Erro ao cadastrar usuário";
                     }
-                    Snackbar snackbar = Snackbar.make(v, erro,Snackbar.LENGTH_LONG);
-                    snackbar.setBackgroundTint(Color.RED);
-                    snackbar.setTextColor(Color.WHITE);
-                    snackbar.show();
+                    Toast.makeText(Cadastrar.this, erro, Toast.LENGTH_SHORT).show();
                 }
             }
         });

@@ -82,6 +82,7 @@
         android:id="@+id/idEmailPerfil"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/textView23"
@@ -109,7 +110,6 @@
         android:id="@+id/idFuncaoPerfil"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Status da pessoa"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/textView33"
@@ -119,7 +119,7 @@
         android:id="@+id/idSenhaPerfil"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Trocar senha"
+        android:inputType="textPassword"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/textView30"
@@ -156,18 +156,18 @@
         app:layout_constraintTop_toBottomOf="@+id/textView33" />
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/btn_deletar_Perfil"
         android:layout_width="135dp"
         android:layout_height="37dp"
         android:layout_marginStart="16dp"
         android:text="excluir conta"
         android:textColor="#F44336"
         android:textSize="10sp"
-        app:layout_constraintBottom_toBottomOf="@+id/button"
-        app:layout_constraintStart_toEndOf="@+id/button" />
+        app:layout_constraintBottom_toBottomOf="@+id/btn_editar_perfil"
+        app:layout_constraintStart_toEndOf="@+id/btn_editar_perfil" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btn_editar_perfil"
         android:layout_width="135dp"
         android:layout_height="37dp"
         android:layout_marginTop="24dp"
@@ -196,6 +196,6 @@
         android:text="deslogar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button4" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_deletar_Perfil" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
