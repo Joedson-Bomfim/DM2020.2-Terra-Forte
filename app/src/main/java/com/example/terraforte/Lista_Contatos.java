@@ -20,13 +20,18 @@ public class Lista_Contatos extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.lista_contatos);
 
+        IniciarComponentes();
+
+        //ArrayAdapter<Usuario> adaptador = new ArrayAdapter<Usuario>(this, android.R.layout.simple_list_item_1, usuariosFiltrados);
+        ContatoAdapter adaptador = new ContatoAdapter(this, usuariosFiltrados);
+        listView.setAdapter(adaptador);
+    }
+
+    private void IniciarComponentes() {
         listView = findViewById(R.id.idListaContatos);
         dao = new UsuarioDAO(this);
         usuarios = dao.obterTodos();
         usuariosFiltrados.addAll(usuarios);
-        //ArrayAdapter<Usuario> adaptador = new ArrayAdapter<Usuario>(this, android.R.layout.simple_list_item_1, usuariosFiltrados);
-        ContatoAdapter adaptador = new ContatoAdapter(this, usuariosFiltrados);
-        listView.setAdapter(adaptador);
     }
 
     @Override

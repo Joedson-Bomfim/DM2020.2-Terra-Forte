@@ -35,28 +35,19 @@ import java.util.List;
 import java.util.Map;
 
 public class Cadastrar extends AppCompatActivity {
-    private EditText email;
-    private EditText senha;
-    private EditText senha_confirmar;
-    private EditText nome_usuario;
-    private EditText nome_completo;
-    private EditText apelido;
-    private EditText telefone;
-    private EditText endereco;
-
-    private RadioGroup radioGroup;
-    private RadioButton radioButtonEscolhido;
-
-    private UsuarioDAO dao;
-
+    private EditText email, senha, senha_confirmar, nome_usuario, nome_completo, apelido, telefone, endereco;
     String usuarioID;
 
-    @SuppressLint("WrongConstant") 
+    @SuppressLint("WrongConstant")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.cadastrar);
 
+        IniciarComponentes();
+    }
+
+    private void IniciarComponentes() {
         email = findViewById(R.id.idEmailCadastro);
         senha = findViewById(R.id.idSenhaCadastro);
         senha_confirmar = findViewById(R.id.idSenhaConfirmar);
@@ -65,12 +56,6 @@ public class Cadastrar extends AppCompatActivity {
         apelido = findViewById(R.id.idApelidoCadastro);
         telefone = findViewById(R.id.idTelefoneCadastro);
         endereco = findViewById(R.id.idEnderecoCadastro);
-
-        radioGroup = findViewById(R.id.radioGroup);
-
-        int idradioButtonEscolhido = radioGroup.getCheckedRadioButtonId();
-
-        radioButtonEscolhido = findViewById(idradioButtonEscolhido);
     }
 
     public void acessarLogin(View v) {
@@ -78,9 +63,9 @@ public class Cadastrar extends AppCompatActivity {
             Toast.makeText(Cadastrar.this, "Apenas o apelido, telefone e endereço podem ser deixados em branco!", Toast.LENGTH_LONG).show();
         } else if(senha.getText().toString().equals(senha_confirmar.getText().toString())) {
             CadastrarUsuario(v);
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-            finish();
+            if(senha.length() >= 6) {
+                AcessarLogin();
+            }
         } else {
             Toast.makeText(Cadastrar.this, "Verifique senha e confirmar senha novamente", Toast.LENGTH_SHORT).show();
         }
@@ -123,6 +108,8 @@ public class Cadastrar extends AppCompatActivity {
         String edit_telefone = telefone.getText().toString();
         String edit_endereco = endereco.getText().toString();
 
+
+
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         Map<String,Object> usuarios = new HashMap<>();
@@ -146,6 +133,12 @@ public class Cadastrar extends AppCompatActivity {
                 Log.d("db_error", "Erro ao salvar os dados");
             }
         });
+    }
+
+    private void AcessarLogin() {
+        Intent intent = new Intent(Cadastrar.this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     //public void salvar(View view) {

@@ -11,4 +11,8 @@ public class Receituarios extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.receituarios);
     }
+
+    private void IniciarComponentes() {
+
+    }
 }

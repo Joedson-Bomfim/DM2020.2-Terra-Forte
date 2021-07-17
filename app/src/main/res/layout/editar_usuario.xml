@@ -20,13 +20,15 @@
 
 
 
+
+
     ]]>
 
     <TextView
         android:id="@+id/textView17"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
         android:text="USUÁRIO: "
         android:textSize="16sp"
         app:layout_constraintEnd_toStartOf="@+id/idNomeUsuarioEditPerfil"
@@ -77,38 +79,47 @@
         app:layout_constraintTop_toTopOf="@+id/textView24" />
 
     <Button
-        android:id="@+id/btn_atualizar_editPerfil"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="72dp"
-        android:text="Atualizar"
-        android:textColor="#4CAF50"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/idEnderecoEditPerfil" />
-
-    <Button
         android:id="@+id/btn_cancelar_editPerfil"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="72dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="80dp"
         android:text="cancelar"
         android:textColor="#FF0F0F"
-        app:layout_constraintBottom_toBottomOf="@+id/btn_atualizar_editPerfil"
-        app:layout_constraintEnd_toStartOf="@+id/btn_atualizar_editPerfil"
-        app:layout_constraintHorizontal_bias="0.428"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroupEditPerfil" />
+
+    <Button
+        android:id="@+id/btn_atualizar_editPerfil"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="16dp"
+        android:text="Atualizar"
+        android:textColor="#4CAF50"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroupEditPerfil" />
 
     <TextView
         android:id="@+id/textView21"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
         android:text="TELEFONE:"
         android:textSize="16sp"
         app:layout_constraintEnd_toStartOf="@+id/idTelefoneEditPerfil"
-        app:layout_constraintTop_toBottomOf="@+id/textView18" />
+        app:layout_constraintTop_toBottomOf="@+id/textView29" />
+
+    <EditText
+        android:id="@+id/idEmailEditPerfil"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textEmailAddress"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView29"
+        app:layout_constraintEnd_toEndOf="@+id/idApelidoEditPerfil"
+        app:layout_constraintTop_toTopOf="@+id/textView29" />
 
     <EditText
         android:id="@+id/idApelidoEditPerfil"
@@ -120,18 +131,27 @@
         app:layout_constraintBottom_toBottomOf="@+id/textView18"
         app:layout_constraintEnd_toEndOf="@+id/idNomeUsuarioEditPerfil"
         app:layout_constraintTop_toTopOf="@+id/textView18"
-        app:layout_constraintVertical_bias="0.523" />
+        app:layout_constraintVertical_bias="0.619" />
 
     <TextView
         android:id="@+id/textView18"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="4dp"
+        android:layout_marginTop="24dp"
         android:text="APELIDO:"
         android:textSize="16sp"
         app:layout_constraintEnd_toStartOf="@+id/idApelidoEditPerfil"
         app:layout_constraintTop_toBottomOf="@+id/textView17" />
+
+    <TextView
+        android:id="@+id/textView29"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="EMAIL:"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@+id/idEmailEditPerfil"
+        app:layout_constraintTop_toBottomOf="@+id/textView18" />
 
     <EditText
         android:id="@+id/idTelefoneEditPerfil"
@@ -141,7 +161,7 @@
         android:inputType="phone"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/textView21"
-        app:layout_constraintEnd_toEndOf="@+id/idApelidoEditPerfil"
+        app:layout_constraintEnd_toEndOf="@+id/idEmailEditPerfil"
         app:layout_constraintTop_toTopOf="@+id/textView21" />
 
     <EditText
@@ -155,14 +175,88 @@
         app:layout_constraintEnd_toEndOf="@+id/idTelefoneEditPerfil"
         app:layout_constraintTop_toTopOf="@+id/textView27" />
 
+    <EditText
+        android:id="@+id/idEnderecoEditPerfil2"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView35"
+        app:layout_constraintEnd_toEndOf="@+id/idEnderecoEditPerfil"
+        app:layout_constraintTop_toTopOf="@+id/textView35" />
+
+    <TextView
+        android:id="@+id/textView35"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="SENHA:"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@+id/idEnderecoEditPerfil2"
+        app:layout_constraintTop_toBottomOf="@+id/textView27" />
+
+    <TextView
+        android:id="@+id/textView39"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="CONFIRMAR SENHA:"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@+id/idEnderecoEditPerfil4"
+        app:layout_constraintTop_toBottomOf="@+id/textView35" />
+
+    <EditText
+        android:id="@+id/idEnderecoEditPerfil4"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView39"
+        app:layout_constraintEnd_toEndOf="@+id/idEnderecoEditPerfil2"
+        app:layout_constraintTop_toTopOf="@+id/textView39" />
+
     <TextView
         android:id="@+id/textView27"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
         android:text="ENDERECO:"
         android:textSize="16sp"
         app:layout_constraintEnd_toStartOf="@+id/idEnderecoEditPerfil"
         app:layout_constraintTop_toBottomOf="@+id/textView21" />
+
+    <TextView
+        android:id="@+id/textView41"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="FUNÇÃO:"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/textView39"
+        app:layout_constraintTop_toBottomOf="@+id/textView39" />
+
+    <RadioGroup
+        android:id="@+id/radioGroupEditPerfil"
+        android:layout_width="98dp"
+        android:layout_height="63dp"
+        app:layout_constraintStart_toEndOf="@+id/textView41"
+        app:layout_constraintTop_toTopOf="@+id/textView41">
+
+        <RadioButton
+            android:id="@+id/rbAgricultorEditPerfil"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Agricultor"
+            android:textSize="10sp" />
+
+        <RadioButton
+            android:id="@+id/rbAgronomoEdittPerfil"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Agrônomo"
+            android:textSize="10sp" />
+    </RadioGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

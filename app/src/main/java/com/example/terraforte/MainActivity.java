@@ -35,6 +35,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
+        IniciarComponentes();
+    }
+
+    private void IniciarComponentes() {
         email = findViewById(R.id.idEmailLogin);
         senha = findViewById(R.id.idSenhaLogin);
         progressBar = findViewById(R.id.pb_progressBar_login);

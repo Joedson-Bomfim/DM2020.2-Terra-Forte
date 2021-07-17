@@ -170,11 +170,12 @@
         android:id="@+id/btn_editar_perfil"
         android:layout_width="135dp"
         android:layout_height="37dp"
+        android:layout_marginStart="65dp"
         android:layout_marginTop="24dp"
         android:text="editar"
         android:textColor="#297B2C"
         android:textSize="10sp"
-        app:layout_constraintStart_toStartOf="@+id/textView30"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView30" />
 
     <ImageView
@@ -190,11 +191,24 @@
 
     <Button
         android:id="@+id/btn_deslogar_perfil"
+        android:layout_width="81dp"
+        android:layout_height="43dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="deslogar"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/pb_progressBar_perfil"
+        style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="deslogar"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_deletar_Perfil" />
 

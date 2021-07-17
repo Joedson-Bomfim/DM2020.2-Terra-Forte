@@ -11,4 +11,8 @@ public class Enviar_Documento extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.enviar_documento);
     }
+
+    private void IniciarComponentes() {
+
+    }
 }
