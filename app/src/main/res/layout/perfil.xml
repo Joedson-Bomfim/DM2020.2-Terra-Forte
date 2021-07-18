@@ -116,16 +116,6 @@
         app:layout_constraintStart_toEndOf="@+id/textView33" />
 
     <TextView
-        android:id="@+id/idSenhaPerfil"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:textColor="#FFFFFF"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/textView30"
-        app:layout_constraintStart_toEndOf="@+id/textView30" />
-
-    <TextView
         android:id="@+id/textView25"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -145,16 +135,6 @@
         app:layout_constraintStart_toStartOf="@+id/textView25"
         app:layout_constraintTop_toBottomOf="@+id/textView25" />
 
-    <TextView
-        android:id="@+id/textView30"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="SENHA: "
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/textView33"
-        app:layout_constraintTop_toBottomOf="@+id/textView33" />
-
     <Button
         android:id="@+id/btn_deletar_Perfil"
         android:layout_width="135dp"
@@ -171,12 +151,12 @@
         android:layout_width="135dp"
         android:layout_height="37dp"
         android:layout_marginStart="65dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="32dp"
         android:text="editar"
         android:textColor="#297B2C"
         android:textSize="10sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView30" />
+        app:layout_constraintTop_toBottomOf="@+id/textView33" />
 
     <ImageView
         android:id="@+id/imageView3"

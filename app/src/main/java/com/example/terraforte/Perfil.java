@@ -2,12 +2,15 @@ package com.example.terraforte;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -66,8 +69,7 @@ public class Perfil extends AppCompatActivity {
         bt_excluir_conta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ExcluirConta();
-                Excluir();
+                DialogAlert();
             }
         });
     }
@@ -158,7 +160,7 @@ public class Perfil extends AppCompatActivity {
         }, 1000);
     }
 
-    private void Excluir() {
+    private void Sair() {
         progressBar.setVisibility(View.VISIBLE);
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -170,6 +172,32 @@ public class Perfil extends AppCompatActivity {
                 Toast.makeText(Perfil.this, "Conta excluída!", Toast.LENGTH_SHORT).show();
             }
         }, 3000);
+    }
+
+    private void DialogAlert() {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(Perfil.this);
+
+        dialog.setTitle("DELETAR CONTA");
+        dialog.setMessage("Você tem certeza que quer excluir a sua conta?");
+        dialog.setIcon(android.R.drawable.ic_delete);
+
+        dialog.setCancelable(false);
+
+        dialog.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                ExcluirConta();
+                Sair();
+            }
+        });
+
+        dialog.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+
+        dialog.show();
     }
 
     @Override
