@@ -89,7 +89,7 @@ public class Cadastrar extends AppCompatActivity {
                     }catch (FirebaseAuthWeakPasswordException e) {
                         erro = "Digite uma senha com no mínimo 6 caractéres";
                     }catch (FirebaseAuthUserCollisionException e) {
-                        erro = "Esta conta já foi  cadastrada";
+                        erro = "Este e-mail já foi cadastrada";
                     }catch (FirebaseAuthInvalidCredentialsException e) {
                         erro = "E-mail inválido";
                     }catch (Exception e){

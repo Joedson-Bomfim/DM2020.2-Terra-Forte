@@ -30,6 +30,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="USUÁRIO: "
+        android:textColor="#FBFBFB"
+        android:textColorHint="#FFFFFF"
         android:textSize="16sp"
         app:layout_constraintEnd_toStartOf="@+id/idNomeUsuarioEditPerfil"
         app:layout_constraintTop_toBottomOf="@+id/textView24" />
@@ -40,6 +42,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="NOME COMPLETO: "
+        android:textColor="#FBFBFB"
+        android:textColorHint="#FFFFFF"
         android:textSize="16sp"
         app:layout_constraintEnd_toStartOf="@+id/idNomeCompletoEditPerfil"
         app:layout_constraintTop_toBottomOf="@+id/imageView4" />
@@ -61,6 +65,8 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
+        android:textColor="#FBFBFB"
+        android:textColorHint="#FFFFFF"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/textView17"
         app:layout_constraintEnd_toEndOf="@+id/idNomeCompletoEditPerfil"
@@ -73,6 +79,8 @@
         android:layout_marginEnd="47dp"
         android:ems="10"
         android:inputType="textPersonName"
+        android:textColor="#FBFBFB"
+        android:textColorHint="#FFFFFF"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/textView24"
         app:layout_constraintEnd_toEndOf="parent"
@@ -82,22 +90,22 @@
         android:id="@+id/btn_cancelar_editPerfil"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="80dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="80dp"
         android:text="cancelar"
         android:textColor="#FF0F0F"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/radioGroupEditPerfil" />
 
     <Button
         android:id="@+id/btn_atualizar_editPerfil"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
-        android:layout_marginStart="80dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="80dp"
         android:text="Atualizar"
         android:textColor="#4CAF50"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/radioGroupEditPerfil" />
 
     <TextView
@@ -106,6 +114,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="TELEFONE:"
+        android:textColor="#FBFBFB"
+        android:textColorHint="#FFFFFF"
         android:textSize="16sp"
         app:layout_constraintEnd_toStartOf="@+id/idTelefoneEditPerfil"
         app:layout_constraintTop_toBottomOf="@+id/textView29" />
@@ -116,6 +126,8 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textEmailAddress"
+        android:textColor="#FBFBFB"
+        android:textColorHint="#FFFFFF"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/textView29"
         app:layout_constraintEnd_toEndOf="@+id/idApelidoEditPerfil"
@@ -127,6 +139,8 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
+        android:textColor="#FBFBFB"
+        android:textColorHint="#FFFFFF"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/textView18"
         app:layout_constraintEnd_toEndOf="@+id/idNomeUsuarioEditPerfil"
@@ -139,6 +153,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="APELIDO:"
+        android:textColor="#FBFBFB"
+        android:textColorHint="#FFFFFF"
         android:textSize="16sp"
         app:layout_constraintEnd_toStartOf="@+id/idApelidoEditPerfil"
         app:layout_constraintTop_toBottomOf="@+id/textView17" />
@@ -149,6 +165,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="EMAIL:"
+        android:textColor="#FBFBFB"
+        android:textColorHint="#FFFFFF"
         android:textSize="16sp"
         app:layout_constraintEnd_toStartOf="@+id/idEmailEditPerfil"
         app:layout_constraintTop_toBottomOf="@+id/textView18" />
@@ -159,6 +177,8 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="phone"
+        android:textColor="#FBFBFB"
+        android:textColorHint="#FFFFFF"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/textView21"
         app:layout_constraintEnd_toEndOf="@+id/idEmailEditPerfil"
@@ -170,6 +190,8 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
+        android:textColor="#FBFBFB"
+        android:textColorHint="#FFFFFF"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/textView27"
         app:layout_constraintEnd_toEndOf="@+id/idTelefoneEditPerfil"
@@ -181,6 +203,8 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPassword"
+        android:textColor="#FBFBFB"
+        android:textColorHint="#FFFFFF"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/textView35"
         app:layout_constraintEnd_toEndOf="@+id/idEnderecoEditPerfil"
@@ -192,6 +216,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="SENHA:"
+        android:textColor="#FBFBFB"
+        android:textColorHint="#FFFFFF"
         android:textSize="16sp"
         app:layout_constraintEnd_toStartOf="@+id/idEnderecoEditPerfil2"
         app:layout_constraintTop_toBottomOf="@+id/textView27" />
@@ -202,6 +228,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="CONFIRMAR SENHA:"
+        android:textColor="#FBFBFB"
+        android:textColorHint="#FFFFFF"
         android:textSize="16sp"
         app:layout_constraintEnd_toStartOf="@+id/idEnderecoEditPerfil4"
         app:layout_constraintTop_toBottomOf="@+id/textView35" />
@@ -212,6 +240,8 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPassword"
+        android:textColor="#FBFBFB"
+        android:textColorHint="#FFFFFF"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/textView39"
         app:layout_constraintEnd_toEndOf="@+id/idEnderecoEditPerfil2"
@@ -223,6 +253,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="ENDERECO:"
+        android:textColor="#FBFBFB"
+        android:textColorHint="#FFFFFF"
         android:textSize="16sp"
         app:layout_constraintEnd_toStartOf="@+id/idEnderecoEditPerfil"
         app:layout_constraintTop_toBottomOf="@+id/textView21" />
@@ -233,14 +265,16 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="FUNÇÃO:"
+        android:textColor="#FBFBFB"
+        android:textColorHint="#FFFFFF"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="@+id/textView39"
         app:layout_constraintTop_toBottomOf="@+id/textView39" />
 
     <RadioGroup
         android:id="@+id/radioGroupEditPerfil"
-        android:layout_width="98dp"
-        android:layout_height="63dp"
+        android:layout_width="124dp"
+        android:layout_height="62dp"
         app:layout_constraintStart_toEndOf="@+id/textView41"
         app:layout_constraintTop_toTopOf="@+id/textView41">
 
@@ -249,14 +283,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Agricultor"
-            android:textSize="10sp" />
+            android:textColor="#FBFBFB"
+            android:textColorHint="#FFFFFF"
+            android:textSize="16sp" />
 
         <RadioButton
             android:id="@+id/rbAgronomoEdittPerfil"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Agrônomo"
-            android:textSize="10sp" />
+            android:textColor="#FBFBFB"
+            android:textColorHint="#FFFFFF"
+            android:textSize="16sp" />
     </RadioGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

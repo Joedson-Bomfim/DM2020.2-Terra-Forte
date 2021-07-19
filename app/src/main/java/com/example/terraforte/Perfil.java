@@ -55,7 +55,7 @@ public class Perfil extends AppCompatActivity {
         bt_deslogar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Deslogar();
+                DialogAlert(0);
             }
         });
 
@@ -69,7 +69,7 @@ public class Perfil extends AppCompatActivity {
         bt_excluir_conta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogAlert();
+                DialogAlert(1);
             }
         });
     }
@@ -174,30 +174,54 @@ public class Perfil extends AppCompatActivity {
         }, 3000);
     }
 
-    private void DialogAlert() {
-        AlertDialog.Builder dialog = new AlertDialog.Builder(Perfil.this);
+    private void DialogAlert(int numero) {
+        if(numero == 1) {
+            AlertDialog.Builder dialog = new AlertDialog.Builder(Perfil.this);
 
-        dialog.setTitle("DELETAR CONTA");
-        dialog.setMessage("Você tem certeza que quer excluir a sua conta?");
-        dialog.setIcon(android.R.drawable.ic_delete);
+            dialog.setTitle("DELETAR CONTA");
+            dialog.setMessage("Você tem certeza que quer excluir a sua conta?");
+            dialog.setIcon(android.R.drawable.ic_delete);
 
-        dialog.setCancelable(false);
+            dialog.setCancelable(false);
 
-        dialog.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                ExcluirConta();
-                Sair();
-            }
-        });
+            dialog.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    ExcluirConta();
+                    Sair();
+                }
+            });
 
-        dialog.setNegativeButton("Não", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-            }
-        });
+            dialog.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                }
+            });
 
-        dialog.show();
+            dialog.show();
+        }else if(numero == 0){
+            AlertDialog.Builder dialog = new AlertDialog.Builder(Perfil.this);
+
+            dialog.setTitle("Deslogar da conta");
+            dialog.setIcon(android.R.drawable.ic_lock_power_off);
+
+            dialog.setCancelable(false);
+
+            dialog.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Deslogar();
+                }
+            });
+
+            dialog.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                }
+            });
+
+            dialog.show();
+        }
     }
 
     @Override

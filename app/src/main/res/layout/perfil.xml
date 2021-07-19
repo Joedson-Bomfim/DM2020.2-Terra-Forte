@@ -139,23 +139,25 @@
         android:id="@+id/btn_deletar_Perfil"
         android:layout_width="135dp"
         android:layout_height="37dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="46dp"
+        android:layout_marginEnd="37dp"
         android:text="excluir conta"
         android:textColor="#F44336"
-        android:textSize="10sp"
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@+id/btn_editar_perfil"
-        app:layout_constraintStart_toEndOf="@+id/btn_editar_perfil" />
+        app:layout_constraintEnd_toStartOf="@+id/btn_editar_perfil"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/btn_editar_perfil"
         android:layout_width="135dp"
         android:layout_height="37dp"
-        android:layout_marginStart="65dp"
         android:layout_marginTop="32dp"
+        android:layout_marginEnd="46dp"
         android:text="editar"
         android:textColor="#297B2C"
-        android:textSize="10sp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView33" />
 
     <ImageView

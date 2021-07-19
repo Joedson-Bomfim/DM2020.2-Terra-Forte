@@ -110,7 +110,7 @@ public class EditarUsuario extends AppCompatActivity {
                                     }catch (FirebaseAuthWeakPasswordException e) {
                                         erro = "Digite uma senha com no mínimo 6 caractéres";
                                     }catch (FirebaseAuthUserCollisionException e) {
-                                        erro = "Esta conta já foi  cadastrada";
+                                        erro = "Já existe outra pessoa com esse e-mail";
                                     }catch (FirebaseAuthInvalidCredentialsException e) {
                                         erro = "E-mail inválido";
                                     }catch (Exception e){
