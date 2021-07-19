@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.renderscript.ScriptGroup;
 import android.text.InputType;
 import android.util.Log;
@@ -36,7 +37,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
 public class EditarUsuario extends AppCompatActivity {
-    private EditText nome_completo, nome_usuario, apelido, email, telefone, endereco;
+    private EditText nome_completo, nome_usuario, apelido, email, telefone, endereco, senha, senha_confirmar;
     private Button cancelar, atualizar;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     String usuarioID;
@@ -71,6 +72,8 @@ public class EditarUsuario extends AppCompatActivity {
         email = findViewById(R.id.idEmailEditPerfil);
         telefone = findViewById(R.id.idTelefoneEditPerfil);
         endereco = findViewById(R.id.idEnderecoEditPerfil);
+        senha = findViewById(R.id.idSenhaEditPerfil);
+        senha_confirmar = findViewById(R.id.idSenhaConfirmaEditPerfil);
         cancelar = findViewById(R.id.btn_cancelar_editPerfil);
         atualizar = findViewById(R.id.btn_atualizar_editPerfil);
     }
@@ -120,6 +123,38 @@ public class EditarUsuario extends AppCompatActivity {
                                 }
                             }
                         });
+
+                        String edit_senha = senha.getText().toString();
+                        String edit_senha_confirmar = senha_confirmar.getText().toString();
+                        if(edit_senha.length() > 0) {
+                            if(edit_senha.equals(edit_senha_confirmar)) {
+                                String nova_senha = edit_senha;
+                                user.updatePassword(nova_senha).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            Log.d("Sucesso", "User password updated.");
+                                            Toast.makeText(EditarUsuario.this, "Senha atualizada com sucesso", Toast.LENGTH_SHORT).show();
+                                            Deslogar();
+                                        }else {
+                                            String erro;
+                                            try {
+                                                throw task.getException();
+                                            }catch (FirebaseAuthWeakPasswordException e) {
+                                                erro = "Digite uma senha com no mínimo 6 caractéres";
+                                                DialogAlert();
+                                            }catch (Exception e){
+                                                erro = "Erro ao atualizar usuário";
+                                            }
+                                            Toast.makeText(EditarUsuario.this, erro, Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+                            }else {
+                                Toast.makeText(EditarUsuario.this, "Está incorreto confirma senha ou senha", Toast.LENGTH_SHORT).show();
+                                DialogAlert();
+                            }
+                        }
 
                         documentReference.update("nome_completo", edit_nome_completo,"nome_usuario", edit_usuario, "apelido", edit_apelido, "telefone", edit_telefone, "endereco", edit_endereco).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
@@ -201,5 +236,17 @@ public class EditarUsuario extends AppCompatActivity {
         });
 
         dialog.show();
+    }
+
+    private void Deslogar() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(EditarUsuario.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        }, 1000);
     }
 }

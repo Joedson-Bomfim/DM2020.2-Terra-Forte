@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.nfc.Tag;
@@ -25,6 +26,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -37,7 +41,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Perfil extends AppCompatActivity {
-    private TextView nome_completo, nome_usuario, apelido, email, telefone, endereco, funcao;
+    private TextView nome_completo, nome_usuario, apelido, email, telefone, endereco, senha, funcao;
     private Button bt_deslogar, bt_editar, bt_excluir_conta;
     private ProgressBar progressBar;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -160,24 +164,9 @@ public class Perfil extends AppCompatActivity {
         }, 1000);
     }
 
-    private void Sair() {
-        progressBar.setVisibility(View.VISIBLE);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(Perfil.this, MainActivity.class);
-                startActivity(intent);
-                finish();
-                Toast.makeText(Perfil.this, "Conta excluída!", Toast.LENGTH_SHORT).show();
-            }
-        }, 3000);
-    }
-
     private void DialogAlert(int numero) {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(Perfil.this);
         if(numero == 1) {
-            AlertDialog.Builder dialog = new AlertDialog.Builder(Perfil.this);
-
             dialog.setTitle("DELETAR CONTA");
             dialog.setMessage("Você tem certeza que quer excluir a sua conta?");
             dialog.setIcon(android.R.drawable.ic_delete);
@@ -187,8 +176,7 @@ public class Perfil extends AppCompatActivity {
             dialog.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    ExcluirConta();
-                    Sair();
+                    DialogAlert(2);
                 }
             });
 
@@ -197,11 +185,7 @@ public class Perfil extends AppCompatActivity {
                 public void onClick(DialogInterface dialog, int which) {
                 }
             });
-
-            dialog.show();
         }else if(numero == 0){
-            AlertDialog.Builder dialog = new AlertDialog.Builder(Perfil.this);
-
             dialog.setTitle("Deslogar da conta");
             dialog.setIcon(android.R.drawable.ic_lock_power_off);
 
@@ -219,9 +203,66 @@ public class Perfil extends AppCompatActivity {
                 public void onClick(DialogInterface dialog, int which) {
                 }
             });
+        }else if(numero == 2) {
+            dialog.setTitle("DELETAR CONTA");
+            dialog.setMessage("Por favor informe a sua senha:");
+            dialog.setIcon(android.R.drawable.ic_delete);
 
-            dialog.show();
+            final EditText edit_senha = new EditText(Perfil.this);
+            edit_senha.setInputType(InputType.TYPE_CLASS_TEXT| InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            dialog.setView(edit_senha);
+
+            dialog.setCancelable(false);
+
+            dialog.setPositiveButton("Deletar", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    String senha = edit_senha.getText().toString();
+                    AutenticarSenha(senha);
+                }
+            });
+
+            dialog.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                }
+            });
         }
+        dialog.show();
+    }
+
+    private void AutenticarSenha(String password) {
+        progressBar.setVisibility(View.VISIBLE);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(password.length() > 0) {
+                    String edit_email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+                    AuthCredential credential = EmailAuthProvider.getCredential(edit_email, password);
+
+                    user.reauthenticate(credential).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if(task.isSuccessful()) {
+                                ExcluirConta();
+                                Deslogar();
+                                Toast.makeText(Perfil.this, "Conta excluída!", Toast.LENGTH_SHORT).show();
+                            }else {
+                                Toast.makeText(Perfil.this, "Senha incorreta", Toast.LENGTH_SHORT).show();
+                                DialogAlert(2);
+                            }
+                        }
+                    });
+                }else {
+                    Toast.makeText(Perfil.this, "Senha não informada", Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.INVISIBLE);
+                    DialogAlert(2);
+                }
+            }
+        }, 500);
     }
 
     @Override

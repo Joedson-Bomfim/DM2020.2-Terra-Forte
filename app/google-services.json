@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "628630678835",
+    "project_id": "terra-forte-3f8cf",
+    "storage_bucket": "terra-forte-3f8cf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:628630678835:android:d904fb8935d4e00706a246",
+        "android_client_info": {
+          "package_name": "com.example.terraforte"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "628630678835-bi42qa73t9q47sqhnv3m6d2er0kcqofg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCnq2T1a0Sgo54Ose7uUU94h784wbFzcI4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "628630678835-bi42qa73t9q47sqhnv3m6d2er0kcqofg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
