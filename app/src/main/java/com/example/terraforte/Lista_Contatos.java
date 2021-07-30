@@ -2,18 +2,18 @@ package com.example.terraforte;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Lista_Contatos extends AppCompatActivity {
-    private ListView listView;
-    private UsuarioDAO dao;
-    private List<Usuario> usuarios;
-    private List<Usuario> usuariosFiltrados = new ArrayList<>();
+    private Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,24 +22,22 @@ public class Lista_Contatos extends AppCompatActivity {
 
         IniciarComponentes();
 
-        //ArrayAdapter<Usuario> adaptador = new ArrayAdapter<Usuario>(this, android.R.layout.simple_list_item_1, usuariosFiltrados);
-        ContatoAdapter adaptador = new ContatoAdapter(this, usuariosFiltrados);
-        listView.setAdapter(adaptador);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Lista_Contatos.this, Lista_AddContato.class);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 
     private void IniciarComponentes() {
-        listView = findViewById(R.id.idListaContatos);
-        dao = new UsuarioDAO(this);
-        usuarios = dao.obterTodos();
-        usuariosFiltrados.addAll(usuarios);
+        button = findViewById(R.id.btn_AddContato);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        usuarios = dao.obterTodos();
-        usuariosFiltrados.clear();
-        usuariosFiltrados.addAll(usuarios);
-        listView.invalidateViews();
     }
 }
