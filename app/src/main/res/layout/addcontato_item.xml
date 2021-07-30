@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:paddingTop="10dp"
+    android:layout_height="120dp">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/main_blog_post"
+        android:layout_width="match_parent"
+        app:cardCornerRadius="9dp"
+        android:layout_height="100dp">
+
+        <LinearLayout
+            android:id="@+id/single_item"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <!--
+                <ImageView
+                    android:id="@+id/place_image"
+                    android:layout_width="150dp"
+                    android:padding="2dp"
+                    android:layout_height="100dp"/>
+                 -->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/id_nomeUsuario_addContato"
+                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="nome_usuario"
+                        android:textStyle="bold"
+                        android:textSize="17dp"
+                        android:textColor="#04095E"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:id="@+id/id_apelido_addContato"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:text="apelido"
+                            android:textColor="#F94001"
+                            android:textSize="15dp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/select"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:padding="5dp"
+                        android:gravity="center"
+                        android:textColor="#04095E"
+                        android:background="#e9f5f8"
+                        android:textStyle="bold"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="15dp"
+                        android:text="selecionar"
+                        android:textSize="15dp" />
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>
