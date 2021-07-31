@@ -27,7 +27,6 @@ public class Lista_Contatos extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(Lista_Contatos.this, Lista_AddContato.class);
                 startActivity(intent);
-                finish();
             }
         });
     }

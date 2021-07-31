@@ -65,16 +65,16 @@
                         android:id="@+id/select"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:padding="5dp"
-                        android:gravity="center"
-                        android:textColor="#04095E"
-                        android:background="#e9f5f8"
-                        android:textStyle="bold"
                         android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
                         android:layout_marginRight="15dp"
-                        android:text="selecionar"
-                        android:textSize="15dp" />
+                        android:background="#e9f5f8"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="Visitar Perfil"
+                        android:textColor="#04095E"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
             </LinearLayout>

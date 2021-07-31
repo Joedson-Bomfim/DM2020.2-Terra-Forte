@@ -3,13 +3,23 @@ package com.example.terraforte;
 import java.io.Serializable;
 
 public class Usuario {
-    private String nome_usuario, apelido;
+    private String nome_usuario, apelido, email, usuarioId;
 
     public Usuario() {}
 
-    public Usuario(String nome_usuario, String apelido) {
+    public Usuario(String nome_usuario, String apelido, String email, String usuarioId) {
         this.nome_usuario = nome_usuario;
         this.apelido = apelido;
+        this.email = email;
+        this.usuarioId = usuarioId;
+    }
+
+    public String getUsuarioId() {
+        return usuarioId;
+    }
+
+    public void setUsuarioId(String uid) {
+        usuarioId = uid;
     }
 
     public String getNome_usuario() {
@@ -26,5 +36,13 @@ public class Usuario {
 
     public void setApelido(String apelido) {
         this.apelido = apelido;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

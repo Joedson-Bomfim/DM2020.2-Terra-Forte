@@ -1,23 +1,35 @@
 package com.example.terraforte;
 
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ListaAddContatoAdapter extends RecyclerView.Adapter<ListaAddContatoAdapter.myViewHolder>  {
     List<Usuario> datalist;
+    String nomeUsuario;
+    private Context context;
 
     public ListaAddContatoAdapter(ArrayList<Usuario> datalist) {
         this.datalist = datalist;
-
     }
 
     @NonNull
@@ -39,9 +51,9 @@ public class ListaAddContatoAdapter extends RecyclerView.Adapter<ListaAddContato
         return datalist.size();
     }
 
-    class myViewHolder extends RecyclerView.ViewHolder{
+    class myViewHolder extends RecyclerView.ViewHolder {
 
-        TextView nome_usuario, apelido, select;
+        TextView nome_usuario, apelido, select, UsuarioId;
         //ImageView place_image;
 
         public myViewHolder(@NonNull View itemView) {
@@ -51,11 +63,26 @@ public class ListaAddContatoAdapter extends RecyclerView.Adapter<ListaAddContato
             apelido = itemView.findViewById(R.id.id_apelido_addContato);
             //place_image = itemView.findViewById(R.id.place_image);
             select = itemView.findViewById(R.id.select);
+            context = itemView.getContext();
 
             select.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    String nomeUsuario = "";
 
+                    int pos = getAdapterPosition();
+
+                    if (pos!=RecyclerView.NO_POSITION){
+
+                        nomeUsuario = datalist.get(pos).getApelido();
+
+                        Intent intent = new Intent(v.getContext(), PerfilContato.class);
+                        Bundle b = new Bundle();
+                        b.putString("tecnicoId", nomeUsuario.toString());
+                        intent.putExtras(b);
+                        v.getContext().startActivity(intent);
+
+                    }
                 }
             });
         }

@@ -10,8 +10,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Lista_AddContato"></activity>
-        <activity android:name=".Lista_addContato" />
+        <activity android:name=".PerfilContato"></activity>
+        <activity android:name=".Lista_AddContato" />
         <activity android:name=".EditarUsuario" />
         <activity android:name=".Perfil" />
         <activity android:name=".Enviar_Documento" />
