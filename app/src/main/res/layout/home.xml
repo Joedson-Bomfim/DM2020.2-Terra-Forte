@@ -37,22 +37,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.422" />
 
-    <Button
-        android:id="@+id/button9"
-        android:layout_width="305dp"
-        android:layout_height="113dp"
-        android:autoText="false"
-        android:background="#C2009688"
-        android:onClick="acessarReceituarios"
-        android:text="Receituários recebidos"
-        android:textColor="#FFFFFF"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button6"
-        app:layout_constraintVertical_bias="0.299" />
-
     <ImageButton
         android:id="@+id/imageButton6"
         android:layout_width="66dp"
@@ -66,7 +50,7 @@
         app:srcCompat="@drawable/ic_account_circle_black_24dp" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/id_nomeUsuario_Home"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="usuário"

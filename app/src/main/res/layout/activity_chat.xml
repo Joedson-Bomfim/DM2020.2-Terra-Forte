@@ -39,7 +39,9 @@
         android:id="@+id/chat_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/layout_chat"/>
+        android:layout_above="@+id/chatLayout"
+        android:layout_below="@+id/layout_chat"
+        android:layout_marginBottom="0dp" />
 
     <LinearLayout
         android:id="@+id/chatLayout"

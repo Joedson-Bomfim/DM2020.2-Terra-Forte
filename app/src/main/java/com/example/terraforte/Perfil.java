@@ -85,6 +85,7 @@ public class Perfil extends AppCompatActivity {
         email = findViewById(R.id.idEmailPerfil);
         telefone = findViewById(R.id.idTelefonePerfil);
         endereco = findViewById(R.id.idEnderecoPerfil);
+        funcao = findViewById(R.id.idFuncaoPerfil);
         bt_deslogar = findViewById(R.id.btn_deslogar_perfil);
         bt_editar = findViewById(R.id.btn_editar_perfil);
         bt_excluir_conta = findViewById(R.id.btn_deletar_Perfil);
@@ -107,6 +108,7 @@ public class Perfil extends AppCompatActivity {
                     apelido.setText(documentSnapshot.getString("apelido"));
                     telefone.setText(documentSnapshot.getString("telefone"));
                     endereco.setText(documentSnapshot.getString("endereco"));
+                    funcao.setText(documentSnapshot.getString("funcao"));
 
                     email.setText(edit_email);
                 }

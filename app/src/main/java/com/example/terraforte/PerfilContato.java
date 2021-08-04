@@ -25,7 +25,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 public class PerfilContato extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    TextView edit_nomeUsuario, edit_apelido;
+    TextView edit_nomeUsuario, edit_apelido, edit_telefone, edit_endereco, edit_nomeCompleto, funcao;
     Button conversar;
     String id_contato;
 
@@ -50,6 +50,10 @@ public class PerfilContato extends AppCompatActivity {
         edit_nomeUsuario = findViewById(R.id.idNomeUsuarioPerfilContato);
         edit_apelido = findViewById(R.id.idApelidoPerfilContato);
         conversar = findViewById(R.id.btn_conversarPerfilContato);
+        edit_telefone = findViewById(R.id.idTelefonePerfilContato);
+        edit_endereco = findViewById(R.id.idEnderecoPerfilContato);
+        edit_nomeCompleto = findViewById(R.id.idNomeCompletoPerfilContato);
+        funcao = findViewById(R.id.idFuncaoPerfilContato);
     }
 
     @Override
@@ -73,6 +77,10 @@ public class PerfilContato extends AppCompatActivity {
                                         if(documentSnapshot != null) {
                                             edit_nomeUsuario.setText(documentSnapshot.getString("nome_usuario"));
                                             edit_apelido.setText(documentSnapshot.getString("apelido"));
+                                            edit_telefone.setText(documentSnapshot.getString("telefone"));
+                                            edit_endereco.setText(documentSnapshot.getString("endereco"));
+                                            edit_nomeCompleto.setText(documentSnapshot.getString("nome_completo"));
+                                            funcao.setText(documentSnapshot.getString("funcao"));
                                         }
                                     }
                                 });

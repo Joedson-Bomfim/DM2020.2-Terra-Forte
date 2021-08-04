@@ -22,19 +22,6 @@
         app:layout_constraintStart_toStartOf="@+id/idSenhaLogin"
         app:layout_constraintTop_toBottomOf="@+id/idSenhaLogin" />
 
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="Esqueceu sua senha?"
-        android:textColor="#3F51B5"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="@+id/idSenhaLogin"
-        app:layout_constraintTop_toBottomOf="@+id/idSenhaLogin"
-        tools:ignore="MissingConstraints" />
-
     <EditText
         android:id="@+id/idEmailLogin"
         android:layout_width="300dp"

@@ -37,10 +37,12 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
 public class EditarUsuario extends AppCompatActivity {
-    private EditText nome_completo, nome_usuario, apelido, email, telefone, endereco, senha, senha_confirmar;
+    private EditText nome_completo, nome_usuario, apelido, email, telefone, endereco, senha, senha_confirmar, funcao;
     private Button cancelar, atualizar;
+    private RadioGroup radioGroup;
+    private RadioButton button_escolhido;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    String usuarioID;
+    String usuarioID, funcao_escolhida;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +76,7 @@ public class EditarUsuario extends AppCompatActivity {
         endereco = findViewById(R.id.idEnderecoEditPerfil);
         senha = findViewById(R.id.idSenhaEditPerfil);
         senha_confirmar = findViewById(R.id.idSenhaConfirmaEditPerfil);
+        radioGroup = findViewById(R.id.radioGroupEditPerfil);
         cancelar = findViewById(R.id.btn_cancelar_editPerfil);
         atualizar = findViewById(R.id.btn_atualizar_editPerfil);
     }
@@ -100,6 +103,13 @@ public class EditarUsuario extends AppCompatActivity {
                         String edit_email = email.getText().toString();
                         String edit_telefone = telefone.getText().toString();
                         String edit_endereco = endereco.getText().toString();
+
+                        int idRadioGrupEscolhido = radioGroup.getCheckedRadioButtonId();
+
+                        if(idRadioGrupEscolhido>0){
+                            button_escolhido = findViewById(idRadioGrupEscolhido);
+                            funcao_escolhida = button_escolhido.getText().toString();
+                        }
 
                         user.updateEmail(edit_email).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override

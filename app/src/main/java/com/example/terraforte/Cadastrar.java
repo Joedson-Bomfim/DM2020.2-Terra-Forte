@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -36,7 +37,9 @@ import java.util.Map;
 
 public class Cadastrar extends AppCompatActivity {
     private EditText email, senha, senha_confirmar, nome_usuario, nome_completo, apelido, telefone, endereco;
-    String usuarioID;
+    private RadioGroup radioGroup;
+    private RadioButton button_escolhido;
+    String usuarioID, funcao_escolhida;
 
     @SuppressLint("WrongConstant")
     @Override
@@ -56,6 +59,7 @@ public class Cadastrar extends AppCompatActivity {
         apelido = findViewById(R.id.idApelidoCadastro);
         telefone = findViewById(R.id.idTelefoneCadastro);
         endereco = findViewById(R.id.idEnderecoCadastro);
+        radioGroup = findViewById(R.id.radioiGroupCadastrar);
     }
 
     public void acessarLogin(View v) {
@@ -89,7 +93,7 @@ public class Cadastrar extends AppCompatActivity {
                     }catch (FirebaseAuthWeakPasswordException e) {
                         erro = "Digite uma senha com no mínimo 6 caractéres";
                     }catch (FirebaseAuthUserCollisionException e) {
-                        erro = "Este e-mail já foi cadastrada";
+                        erro = "Este e-mail já foi cadastrado";
                     }catch (FirebaseAuthInvalidCredentialsException e) {
                         erro = "E-mail inválido";
                     }catch (Exception e){
@@ -108,7 +112,12 @@ public class Cadastrar extends AppCompatActivity {
         String edit_telefone = telefone.getText().toString();
         String edit_endereco = endereco.getText().toString();
 
+        int idRadioGrupEscolhido = radioGroup.getCheckedRadioButtonId();
 
+        if(idRadioGrupEscolhido>0){
+            button_escolhido = findViewById(idRadioGrupEscolhido);
+            funcao_escolhida = button_escolhido.getText().toString();
+        }
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -118,6 +127,7 @@ public class Cadastrar extends AppCompatActivity {
         usuarios.put("apelido", edit_apelido);
         usuarios.put("telefone", edit_telefone);
         usuarios.put("endereco", edit_endereco);
+        usuarios.put("funcao", funcao_escolhida);
 
         usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
