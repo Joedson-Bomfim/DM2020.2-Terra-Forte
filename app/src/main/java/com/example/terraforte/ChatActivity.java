@@ -33,6 +33,7 @@ import com.google.protobuf.StringValue;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 public class ChatActivity extends AppCompatActivity {
     RecyclerView recyclerView;
@@ -148,13 +149,14 @@ public class ChatActivity extends AppCompatActivity {
     private void sendMessage(String message) {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
 
-        String timeStamp = String.valueOf(System.currentTimeMillis());
+        //String timeStamp = String.valueOf(System.currentTimeMillis());
+        String timeStamp = UUID.randomUUID().toString();
 
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("sender",myUid);
         hashMap.put("receiver",hisUid);
         hashMap.put("message",message);
-        hashMap.put("timestamp",timeStamp);
+        hashMap.put("timestamp", timeStamp);
         hashMap.put("isSeen",false);
         databaseReference.child("Chats").push().setValue(hashMap);
 
