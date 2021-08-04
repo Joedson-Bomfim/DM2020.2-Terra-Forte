@@ -10,7 +10,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PerfilContato"></activity>
+        <activity android:name=".ChatActivity"></activity>
+        <activity android:name=".PerfilContato" />
         <activity android:name=".Lista_AddContato" />
         <activity android:name=".EditarUsuario" />
         <activity android:name=".Perfil" />
