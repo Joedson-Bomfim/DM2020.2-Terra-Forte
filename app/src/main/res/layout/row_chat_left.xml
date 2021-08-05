@@ -49,6 +49,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/isSentTv"
         android:gravity="end"
+        android:visibility="invisible"
         android:textAlignment="textEnd"
         android:text="Vizualidado"/>
 

@@ -1,0 +1,639 @@
+Index: app/src/main/java/com/example/terraforte/AdapterChat.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.terraforte;\r\n\r\nimport android.app.AlertDialog;\r\nimport android.content.Context;\r\nimport android.content.DialogInterface;\r\nimport android.view.LayoutInflater;\r\nimport android.view.View;\r\nimport android.view.ViewGroup;\r\nimport android.view.WindowInsets;\r\nimport android.widget.LinearLayout;\r\nimport android.widget.TextView;\r\nimport android.widget.Toast;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.recyclerview.widget.RecyclerView;\r\n\r\nimport com.google.firebase.auth.FirebaseAuth;\r\nimport com.google.firebase.auth.FirebaseUser;\r\nimport com.google.firebase.database.DataSnapshot;\r\nimport com.google.firebase.database.DatabaseError;\r\nimport com.google.firebase.database.DatabaseReference;\r\nimport com.google.firebase.database.FirebaseDatabase;\r\nimport com.google.firebase.database.Query;\r\nimport com.google.firebase.database.ValueEventListener;\r\n\r\nimport java.text.DateFormat;\r\nimport java.util.Calendar;\r\nimport java.util.HashMap;\r\nimport java.util.List;\r\nimport java.util.Locale;\r\n\r\npublic class AdapterChat extends RecyclerView.Adapter<AdapterChat.Myholer> {\r\n\r\n    private static final int MSG_TYPE_LEFT = 0;\r\n    private static final int MSG_TYPE_RIHGT = 1;\r\n    Context context;\r\n    List<ModelChat> chatList;\r\n\r\n    FirebaseUser fUser;\r\n\r\n    public AdapterChat(Context context, List<ModelChat> chatList) {\r\n        this.context = context;\r\n        this.chatList = chatList;\r\n    }\r\n\r\n    @NonNull\r\n    @Override\r\n    public Myholer onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {\r\n        if(i==MSG_TYPE_RIHGT) {\r\n            View view = LayoutInflater.from(context).inflate(R.layout.row_chat_right, viewGroup, false);\r\n            return new Myholer(view);\r\n        }else {\r\n            View view = LayoutInflater.from(context).inflate(R.layout.row_chat_left, viewGroup, false);\r\n            return new Myholer(view);\r\n        }\r\n    }\r\n\r\n    @Override\r\n    public void onBindViewHolder(@NonNull Myholer myholer, final int i) {\r\n        String message = chatList.get(i).getMessage();\r\n        String timeStamp = chatList.get(i).getTimestamp();\r\n\r\n        //Calendar cal = Calendar.getInstance(Locale.ENGLISH);\r\n        //cal.setTimeInMillis(Long.parseLong(timeStamp));\r\n        //String dateTime = DateFormat.getInstance().format(cal).toString();\r\n\r\n        myholer.timeTv.setText(\"04/08/2021 12:40 PM\");\r\n\r\n        myholer.messageTv.setText(message);\r\n        //myholer.timeTv.setText(dateTime);\r\n\r\n        myholer.messageLayout.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View v) {\r\n                AlertDialog.Builder builder = new AlertDialog.Builder(context);\r\n                builder.setTitle(\"Apagar\");\r\n                builder.setMessage(\"Você tem certeza que quer apagar essa mensagem?\");\r\n\r\n                builder.setPositiveButton(\"Sim\", new DialogInterface.OnClickListener() {\r\n                    @Override\r\n                    public void onClick(DialogInterface dialog, int which) {\r\n                        DeleteMessage(i);\r\n                    }\r\n                });\r\n\r\n                builder.setNegativeButton(\"Não\", new DialogInterface.OnClickListener() {\r\n                    @Override\r\n                    public void onClick(DialogInterface dialog, int which) {\r\n                        dialog.dismiss();\r\n                    }\r\n                });\r\n\r\n                builder.create().show();\r\n            }\r\n        });\r\n\r\n        if(i==chatList.size()-1) {\r\n            if(chatList.get(i).isSeen()) {\r\n                myholer.isSeenTv.setText(\"Vizualisto\");\r\n            }else {\r\n                myholer.isSeenTv.setText(\"Entregue\");\r\n            }\r\n        }else {\r\n            myholer.isSeenTv.setVisibility(View.GONE);\r\n        }\r\n    }\r\n\r\n    private void DeleteMessage(int position) {\r\n        String myUID = FirebaseAuth.getInstance().getCurrentUser().getUid();\r\n\r\n        String msgTimeStamp = chatList.get(position).getTimestamp();\r\n        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference(\"Chats\");\r\n        Query query = dbRef.orderByChild(\"timestamp\").equalTo(msgTimeStamp);\r\n        query.addListenerForSingleValueEvent(new ValueEventListener() {\r\n            @Override\r\n            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {\r\n                for(DataSnapshot ds: dataSnapshot.getChildren()) {\r\n\r\n                    if(ds.child(\"sender\").getValue().equals(myUID)) {\r\n                        ds.getRef().removeValue();\r\n\r\n                        //HashMap<String, Object> hashMap = new HashMap<>();\r\n                        //hashMap.put(\"message\", \"Essa mensagem foi apagada\");\r\n                        //ds.getRef().updateChildren(hashMap);\r\n\r\n                        Toast.makeText(context, \"Mensagem apagada...\", Toast.LENGTH_SHORT).show();\r\n                    }else {\r\n                        Toast.makeText(context, \"Você só pode apagar uma mesagem de cada vez\", Toast.LENGTH_SHORT).show();\r\n                    }\r\n                }\r\n            }\r\n\r\n            @Override\r\n            public void onCancelled(@NonNull DatabaseError databaseError) {\r\n\r\n            }\r\n        });\r\n    }\r\n\r\n    @Override\r\n    public int getItemCount() {\r\n        return chatList.size();\r\n    }\r\n\r\n    @Override\r\n    public int getItemViewType(int position) {\r\n        fUser = FirebaseAuth.getInstance().getCurrentUser();\r\n\r\n        if(chatList.get(position).getSender().equals(fUser.getUid())) {\r\n            return MSG_TYPE_RIHGT;\r\n        }else {\r\n            return MSG_TYPE_LEFT;\r\n        }\r\n    }\r\n\r\n    class Myholer extends RecyclerView.ViewHolder{\r\n\r\n        TextView messageTv, timeTv, isSeenTv;\r\n        LinearLayout messageLayout;\r\n\r\n        public Myholer(@NonNull View itemView) {\r\n            super(itemView);\r\n\r\n            messageTv = itemView.findViewById(R.id.messageTv);\r\n            timeTv = itemView.findViewById(R.id.timeTv);\r\n            isSeenTv = itemView.findViewById(R.id.isSentTv);\r\n            messageLayout = itemView.findViewById(R.id.messageLayout);\r\n        }\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/terraforte/AdapterChat.java	(revision 35a682add9b7c405aa930a28e44430975a833174)
++++ app/src/main/java/com/example/terraforte/AdapterChat.java	(date 1628126167431)
+@@ -7,11 +7,13 @@
+ import android.view.View;
+ import android.view.ViewGroup;
+ import android.view.WindowInsets;
++import android.widget.ImageView;
+ import android.widget.LinearLayout;
+ import android.widget.TextView;
+ import android.widget.Toast;
+ 
+ import androidx.annotation.NonNull;
++import androidx.appcompat.view.menu.MenuView;
+ import androidx.recyclerview.widget.RecyclerView;
+ 
+ import com.google.firebase.auth.FirebaseAuth;
+@@ -22,6 +24,7 @@
+ import com.google.firebase.database.FirebaseDatabase;
+ import com.google.firebase.database.Query;
+ import com.google.firebase.database.ValueEventListener;
++import com.squareup.picasso.Picasso;
+ 
+ import java.text.DateFormat;
+ import java.util.Calendar;
+@@ -59,6 +62,7 @@
+     public void onBindViewHolder(@NonNull Myholer myholer, final int i) {
+         String message = chatList.get(i).getMessage();
+         String timeStamp = chatList.get(i).getTimestamp();
++        String type = chatList.get(i).getType();
+ 
+         //Calendar cal = Calendar.getInstance(Locale.ENGLISH);
+         //cal.setTimeInMillis(Long.parseLong(timeStamp));
+@@ -66,6 +70,18 @@
+ 
+         myholer.timeTv.setText("04/08/2021 12:40 PM");
+ 
++        if(type.equals("text")) {
++            myholer.messageTv.setVisibility(View.VISIBLE);
++            myholer.messageIv.setVisibility(View.GONE);
++
++            myholer.messageTv.setText(message);
++        }else {
++            myholer.messageTv.setVisibility(View.GONE);
++            myholer.messageIv.setVisibility(View.VISIBLE);
++
++            Picasso.get().load(message).placeholder(R.drawable.ic_image_black).into(myholer.messageIv);
++        }
++
+         myholer.messageTv.setText(message);
+         //myholer.timeTv.setText(dateTime);
+ 
+@@ -155,12 +171,14 @@
+ 
+     class Myholer extends RecyclerView.ViewHolder{
+ 
++        ImageView messageIv;
+         TextView messageTv, timeTv, isSeenTv;
+         LinearLayout messageLayout;
+ 
+         public Myholer(@NonNull View itemView) {
+             super(itemView);
+ 
++            messageIv = itemView.findViewById(R.id.messageIv);
+             messageTv = itemView.findViewById(R.id.messageTv);
+             timeTv = itemView.findViewById(R.id.timeTv);
+             isSeenTv = itemView.findViewById(R.id.isSentTv);
+Index: app/src/main/java/com/example/terraforte/ChatActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.terraforte;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.annotation.Nullable;\r\nimport androidx.appcompat.app.AppCompatActivity;\r\nimport androidx.recyclerview.widget.LinearLayoutManager;\r\nimport androidx.recyclerview.widget.RecyclerView;\r\n\r\nimport android.content.Intent;\r\nimport android.os.Bundle;\r\nimport android.text.TextUtils;\r\nimport android.view.View;\r\nimport android.widget.EditText;\r\nimport android.widget.ImageButton;\r\nimport android.widget.LinearLayout;\r\nimport android.widget.TextView;\r\nimport android.widget.Toast;\r\n\r\nimport com.google.firebase.auth.FirebaseAuth;\r\nimport com.google.firebase.auth.FirebaseUser;\r\nimport com.google.firebase.database.DataSnapshot;\r\nimport com.google.firebase.database.DatabaseError;\r\nimport com.google.firebase.database.DatabaseReference;\r\nimport com.google.firebase.database.FirebaseDatabase;\r\nimport com.google.firebase.database.ValueEventListener;\r\nimport com.google.firebase.firestore.DocumentReference;\r\nimport com.google.firebase.firestore.DocumentSnapshot;\r\nimport com.google.firebase.firestore.EventListener;\r\nimport com.google.firebase.firestore.FirebaseFirestore;\r\nimport com.google.firebase.firestore.FirebaseFirestoreException;\r\nimport com.google.protobuf.StringValue;\r\n\r\nimport java.util.ArrayList;\r\nimport java.util.HashMap;\r\nimport java.util.List;\r\nimport java.util.UUID;\r\n\r\npublic class ChatActivity extends AppCompatActivity {\r\n    RecyclerView recyclerView;\r\n    TextView nameTv, userStatusTv;\r\n    EditText messageET;\r\n    ImageButton sendBtn;\r\n\r\n    FirebaseAuth firebaseAuth;\r\n\r\n    ValueEventListener seenListener;\r\n    DatabaseReference userRefForSeen;\r\n\r\n    List<ModelChat> chatList;\r\n    AdapterChat adapterChat;\r\n\r\n    String myUid;\r\n    String hisUid;\r\n\r\n    FirebaseFirestore db = FirebaseFirestore.getInstance();\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_chat);\r\n\r\n        IniciarComponentes();\r\n\r\n        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);\r\n        linearLayoutManager.setStackFromEnd(true);\r\n        recyclerView.setHasFixedSize(true);\r\n        recyclerView.setLayoutManager(linearLayoutManager);\r\n\r\n        hisUid = getIntent().getStringExtra(\"idContato\");\r\n\r\n        DocumentReference documentReference = db.collection(\"Usuarios\").document(hisUid);\r\n        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {\r\n            @Override\r\n            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException error) {\r\n                if(documentSnapshot != null) {\r\n                    nameTv.setText(documentSnapshot.getString(\"nome_usuario\"));\r\n                }\r\n            }\r\n        });\r\n\r\n        sendBtn.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View v) {\r\n                String message = messageET.getText().toString().trim();\r\n                if(TextUtils.isEmpty(message)) {\r\n                    Toast.makeText(ChatActivity.this, \"Não é possível enviar uma mensagem vazia...\", Toast.LENGTH_SHORT).show();\r\n                }else {\r\n                    sendMessage(message);\r\n                }\r\n            }\r\n        });\r\n\r\n        readMessage();\r\n\r\n        seenMessage();\r\n\r\n    }\r\n\r\n    private void seenMessage() {\r\n        userRefForSeen = FirebaseDatabase.getInstance().getReference(\"Chats\");\r\n        seenListener = userRefForSeen.addValueEventListener(new ValueEventListener() {\r\n            @Override\r\n            public void onDataChange(@NonNull DataSnapshot datasnapshot) {\r\n                for(DataSnapshot ds: datasnapshot.getChildren()) {\r\n                    ModelChat chat = ds.getValue(ModelChat.class);\r\n                    if(chat.getReceiver().equals(myUid) && chat.getSender().equals(hisUid)) {\r\n                        HashMap<String, Object> hasSeenHashMap = new HashMap<>();\r\n                        hasSeenHashMap.put(\"isSeen\", true);\r\n                        ds.getRef().updateChildren(hasSeenHashMap);\r\n                    }\r\n                }\r\n            }\r\n\r\n            @Override\r\n            public void onCancelled(@NonNull DatabaseError databaseError) {\r\n\r\n            }\r\n        });\r\n    }\r\n\r\n    private void readMessage() {\r\n        chatList = new ArrayList<>();\r\n        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference(\"Chats\");\r\n        dbRef.addValueEventListener(new ValueEventListener() {\r\n            @Override\r\n            public void onDataChange(@NonNull DataSnapshot datasnapshot) {\r\n                chatList.clear();\r\n                for(DataSnapshot ds: datasnapshot.getChildren()) {\r\n                    ModelChat chat = ds.getValue(ModelChat.class);\r\n                    if(chat.getReceiver().equals(myUid) && chat.getSender().equals(hisUid) ||\r\n                            chat.getReceiver().equals(hisUid) && chat.getSender().equals(myUid)) {\r\n                        chatList.add(chat);\r\n                    }\r\n\r\n                    adapterChat= new AdapterChat(ChatActivity.this, chatList);\r\n                    adapterChat.notifyDataSetChanged();\r\n\r\n                    recyclerView.setAdapter(adapterChat);\r\n                }\r\n            }\r\n\r\n            @Override\r\n            public void onCancelled(@NonNull DatabaseError error) {\r\n\r\n            }\r\n        });\r\n    }\r\n\r\n    private void sendMessage(String message) {\r\n        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();\r\n\r\n        //String timeStamp = String.valueOf(System.currentTimeMillis());\r\n        String timeStamp = UUID.randomUUID().toString();\r\n\r\n        HashMap<String, Object> hashMap = new HashMap<>();\r\n        hashMap.put(\"sender\",myUid);\r\n        hashMap.put(\"receiver\",hisUid);\r\n        hashMap.put(\"message\",message);\r\n        hashMap.put(\"timestamp\", timeStamp);\r\n        hashMap.put(\"isSeen\",false);\r\n        databaseReference.child(\"Chats\").push().setValue(hashMap);\r\n\r\n        messageET.setText(\"\");\r\n    }\r\n\r\n    private void IniciarComponentes() {\r\n        recyclerView = findViewById(R.id.chat_recyclerView);\r\n        nameTv = findViewById(R.id.nameTv);\r\n        userStatusTv = findViewById(R.id.userStatusTv);\r\n        messageET = findViewById(R.id.messageEt);\r\n        sendBtn = findViewById(R.id.sendBtn);\r\n\r\n        firebaseAuth = FirebaseAuth.getInstance();\r\n    }\r\n\r\n    private void checkUserStatus() {\r\n        FirebaseUser user = firebaseAuth.getCurrentUser();\r\n\r\n        if(user != null) {\r\n            myUid = user.getUid();\r\n        }else {\r\n            startActivity(new Intent(this, MainActivity.class));\r\n        }\r\n    }\r\n\r\n    @Override\r\n    protected void onStart() {\r\n        checkUserStatus();\r\n        super.onStart();\r\n    }\r\n\r\n    @Override\r\n    protected void onPause() {\r\n        super.onPause();\r\n        userRefForSeen.removeEventListener(seenListener);\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/terraforte/ChatActivity.java	(revision 35a682add9b7c405aa930a28e44430975a833174)
++++ app/src/main/java/com/example/terraforte/ChatActivity.java	(date 1628127456427)
+@@ -1,21 +1,38 @@
+ package com.example.terraforte;
+ 
++import androidx.activity.result.contract.ActivityResultContracts;
+ import androidx.annotation.NonNull;
+ import androidx.annotation.Nullable;
++import androidx.appcompat.app.AlertDialog;
+ import androidx.appcompat.app.AppCompatActivity;
++import androidx.core.app.ActivityCompat;
++import androidx.core.content.ContextCompat;
+ import androidx.recyclerview.widget.LinearLayoutManager;
+ import androidx.recyclerview.widget.RecyclerView;
+ 
++import android.Manifest;
++import android.app.Activity;
++import android.app.ProgressDialog;
++import android.content.ContentValues;
+ import android.content.Intent;
++import android.content.pm.PackageManager;
++import android.graphics.Bitmap;
++import android.net.Uri;
+ import android.os.Bundle;
++import android.provider.MediaStore;
+ import android.text.TextUtils;
+ import android.view.View;
+ import android.widget.EditText;
+ import android.widget.ImageButton;
+ import android.widget.LinearLayout;
++import android.widget.ProgressBar;
+ import android.widget.TextView;
+ import android.widget.Toast;
+ 
++import com.google.android.gms.tasks.OnCanceledListener;
++import com.google.android.gms.tasks.OnFailureListener;
++import com.google.android.gms.tasks.OnSuccessListener;
++import com.google.android.gms.tasks.Task;
+ import com.google.firebase.auth.FirebaseAuth;
+ import com.google.firebase.auth.FirebaseUser;
+ import com.google.firebase.database.DataSnapshot;
+@@ -28,8 +45,13 @@
+ import com.google.firebase.firestore.EventListener;
+ import com.google.firebase.firestore.FirebaseFirestore;
+ import com.google.firebase.firestore.FirebaseFirestoreException;
++import com.google.firebase.storage.FirebaseStorage;
++import com.google.firebase.storage.StorageReference;
++import com.google.firebase.storage.UploadTask;
+ import com.google.protobuf.StringValue;
+ 
++import java.io.ByteArrayOutputStream;
++import java.io.IOException;
+ import java.util.ArrayList;
+ import java.util.HashMap;
+ import java.util.List;
+@@ -39,7 +61,7 @@
+     RecyclerView recyclerView;
+     TextView nameTv, userStatusTv;
+     EditText messageET;
+-    ImageButton sendBtn;
++    ImageButton sendBtn, attachBtn;
+ 
+     FirebaseAuth firebaseAuth;
+ 
+@@ -52,6 +74,33 @@
+     String myUid;
+     String hisUid;
+ 
++    //permissão constants
++    private static final int CAMERA_REQUEST_CODE = 100;
++    private static final int STORAGE_REQUEST_CODE = 200;
++
++    //Pegar constância da imagem
++    private static final int IMAGE_PICK_CAMERA_CODE = 300;
++    private static final int IMAGE_PICK_GALLERY_CODE = 300;
++
++    //Array com permissão
++    String[] cameraPermissions;
++    String[] storagePermissions;
++
++    Uri image_rui = null;
++
++    //Talvez poderemos usar isso com os documentos
++    /*
++    //permissão constants
++    private static final int CAMERA_REQUEST_CODE = 100;
++    private static final int STORAGE_REQUEST_CODE = 200;
++
++    //Pegar constância da imagem
++    private static final int IMAGE_PICK_CAMERA_CODE = 300;
++    private static final int IMAGE_PICK_GALLERY_CODE = 300
++
++    String[] StoragePermissions;
++     */
++
+     FirebaseFirestore db = FirebaseFirestore.getInstance();
+ 
+     @Override
+@@ -90,12 +139,76 @@
+             }
+         });
+ 
++        attachBtn.setOnClickListener(new View.OnClickListener() {
++            @Override
++            public void onClick(View v) {
++                showImagePickDialog();
++            }
++        });
++
+         readMessage();
+ 
+         seenMessage();
+ 
+     }
+ 
++    private void showImagePickDialog() {
++        String[] options = {"Camera", "Gallery"};
++
++        AlertDialog.Builder builder = new AlertDialog.Builder(this);
++        builder.setTitle("Choose Image from");
++
++        builder.setItems(options, ((dialog, which) -> {
++            if(which == 0) {
++                if(!checkCameraPermission()) {
++                    requestCameraPermission();
++                }else {
++                    pickFromCamera();
++                }
++            }
++            if(which == 1) {
++                pickFromGallery();
++            }
++        }));
++        builder.create().show();
++    }
++
++    private void pickFromGallery() {
++        Intent intent = new Intent(Intent.ACTION_PICK);
++        intent.setType("image/*");
++        startActivityForResult(intent, IMAGE_PICK_GALLERY_CODE);
++    }
++
++    private void pickFromCamera() {
++        ContentValues cv = new ContentValues();
++        cv.put(MediaStore.Images.Media.TITLE,"Temp Pick");
++        cv.put(MediaStore.Images.Media.DESCRIPTION,"Temp Descr");
++        image_rui = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, cv);
++
++        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
++        intent.putExtra(MediaStore.EXTRA_OUTPUT, image_rui);
++        startActivityForResult(intent, IMAGE_PICK_CAMERA_CODE);
++    }
++
++    private boolean checkStoregePermission() {
++        boolean result = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == (PackageManager.PERMISSION_GRANTED);
++        return result;
++    }
++
++    private void requestStoragePermission() {
++        ActivityCompat.requestPermissions(this, storagePermissions, STORAGE_REQUEST_CODE);
++    }
++
++    private boolean checkCameraPermission() {
++        boolean result = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == (PackageManager.PERMISSION_GRANTED);
++        boolean result1 = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == (PackageManager.PERMISSION_GRANTED);
++        return result && result1;
++    }
++
++    private void requestCameraPermission() {
++        ActivityCompat.requestPermissions(this, cameraPermissions, CAMERA_REQUEST_CODE);
++    }
++
+     private void seenMessage() {
+         userRefForSeen = FirebaseDatabase.getInstance().getReference("Chats");
+         seenListener = userRefForSeen.addValueEventListener(new ValueEventListener() {
+@@ -158,19 +271,70 @@
+         hashMap.put("message",message);
+         hashMap.put("timestamp", timeStamp);
+         hashMap.put("isSeen",false);
++        hashMap.put("type","text");
+         databaseReference.child("Chats").push().setValue(hashMap);
+ 
+         messageET.setText("");
+     }
+ 
++    private void sendImageMessage(Uri image_rui) throws IOException {
++        ProgressDialog progressDialog = new ProgressDialog(this);
++        progressDialog.setMessage("Enviando imagem...");
++        progressDialog.show();
++
++        String timeStamp = ""+System.currentTimeMillis();
++
++        String fileNameAndPath = "ChatImage/"+"post_"+timeStamp;
++
++        Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), image_rui);
++        ByteArrayOutputStream baos = new ByteArrayOutputStream();
++        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
++        byte[] data = baos.toByteArray();
++        StorageReference ref = FirebaseStorage.getInstance().getReference().child(fileNameAndPath);
++
++        ref.putBytes(data).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
++            @Override
++            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
++                progressDialog.dismiss();
++
++                Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
++                while (!uriTask.isSuccessful());
++                String downloadUri = uriTask.getResult().toString();
++
++                if(uriTask.isSuccessful()) {
++                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
++
++                    HashMap<String, Object> hashMap = new HashMap<>();
++                    hashMap.put("sender", myUid);
++                    hashMap.put("receiver", hisUid);
++                    hashMap.put("message", downloadUri);
++                    hashMap.put("timestamp", timeStamp);
++                    hashMap.put("type", "image");
++                    hashMap.put("isSeen", false);
++
++                    databaseReference.child("Chats").push().setValue(hashMap);
++                }
++            }
++        }).addOnFailureListener(new OnFailureListener() {
++            @Override
++            public void onFailure(@NonNull Exception e) {
++                progressDialog.dismiss();
++            }
++        });
++    }
++
+     private void IniciarComponentes() {
+         recyclerView = findViewById(R.id.chat_recyclerView);
+         nameTv = findViewById(R.id.nameTv);
+         userStatusTv = findViewById(R.id.userStatusTv);
+         messageET = findViewById(R.id.messageEt);
+         sendBtn = findViewById(R.id.sendBtn);
++        attachBtn = findViewById(R.id.attachBtn);
+ 
+         firebaseAuth = FirebaseAuth.getInstance();
++
++        cameraPermissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
++        storagePermissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
+     }
+ 
+     private void checkUserStatus() {
+@@ -194,4 +358,65 @@
+         super.onPause();
+         userRefForSeen.removeEventListener(seenListener);
+     }
++
++    @Override
++    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
++        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
++
++        switch (requestCode) {
++            case CAMERA_REQUEST_CODE: {
++                if (grantResults.length > 0) {
++                    boolean cameraAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
++                    boolean storageAccepted = grantResults[1] == PackageManager.PERMISSION_GRANTED;
++                    if (cameraAccepted && storageAccepted) {
++                        pickFromCamera();
++                    } else {
++                        Toast.makeText(this, "Necessário a permissão de armazenamento e da câmera", Toast.LENGTH_LONG).show();
++                    }
++                } else {
++                }
++            }
++            break;
++            case STORAGE_REQUEST_CODE:{
++                if (grantResults.length > 0) {
++                    boolean storageAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
++                    if (storageAccepted) {
++                        pickFromGallery();
++                    } else {
++                        Toast.makeText(this, "Necessário a permissão de armazenamento", Toast.LENGTH_LONG).show();
++                    }
++                } else {
++                }
++            }
++            break;
++        }
++    }
++
++    @Override
++    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
++        super.onActivityResult(requestCode, resultCode, data);
++
++        if(resultCode == RESULT_OK) {
++
++            if(requestCode == IMAGE_PICK_GALLERY_CODE) {
++
++                image_rui = data.getData();
++
++                try {
++                    sendImageMessage(image_rui);
++                } catch (IOException e) {
++                    e.printStackTrace();
++                }
++            }else if(resultCode == IMAGE_PICK_CAMERA_CODE) {
++
++                try {
++                    sendImageMessage(image_rui);
++                } catch (IOException e) {
++                    e.printStackTrace();
++                }
++
++            }
++        }
++        super.onActivityResult(requestCode, resultCode, data);
++    }
+ }
+\ No newline at end of file
+Index: app/src/main/res/layout/activity_chat.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<RelativeLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    android:background=\"@drawable/gradient\"\r\n    tools:context=\".ChatActivity\">\r\n\r\n    <LinearLayout\r\n        android:id=\"@+id/layout_chat\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:orientation=\"vertical\"\r\n        android:gravity=\"center\"\r\n        android:background=\"#44A848\">\r\n\r\n        <TextView\r\n            android:id=\"@+id/nameTv\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:text=\"Usuário\"\r\n            android:textColor=\"#FFFFFF\"\r\n            android:textSize=\"18sp\"\r\n            android:layout_marginStart=\"5dp\"\r\n            android:textStyle=\"bold\"/>\r\n\r\n        <TextView\r\n            android:id=\"@+id/userStatusTv\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_marginStart=\"5dp\"\r\n            android:text=\"Online\"\r\n            android:textColor=\"#FFFFFF\"/>\r\n\r\n    </LinearLayout>\r\n\r\n    <androidx.recyclerview.widget.RecyclerView\r\n        android:id=\"@+id/chat_recyclerView\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_below=\"@+id/layout_chat\"/>\r\n\r\n    <LinearLayout\r\n        android:id=\"@+id/chatLayout\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_alignParentBottom=\"true\"\r\n        android:background=\"#FFFFFF\"\r\n        android:gravity=\"center\"\r\n        android:orientation=\"horizontal\">\r\n\r\n        <EditText\r\n            android:id=\"@+id/messageEt\"\r\n            android:layout_weight=\"1\"\r\n            android:background=\"@null\"\r\n            android:hint=\"digitando...\"\r\n            android:padding=\"15dp\"\r\n            android:inputType=\"textCapSentences|textMultiLine\"\r\n            android:layout_width=\"0dp\"\r\n            android:layout_height=\"wrap_content\"/>\r\n\r\n        <ImageButton\r\n            android:id=\"@+id/sendBtn\"\r\n            android:background=\"@null\"\r\n            android:src=\"@drawable/ic_send\"\r\n            android:layout_width=\"40dp\"\r\n            android:layout_height=\"40dp\"/>\r\n\r\n    </LinearLayout>\r\n\r\n</RelativeLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_chat.xml	(revision 35a682add9b7c405aa930a28e44430975a833174)
++++ app/src/main/res/layout/activity_chat.xml	(date 1628104892973)
+@@ -50,6 +50,13 @@
+         android:gravity="center"
+         android:orientation="horizontal">
+ 
++        <ImageButton
++            android:id="@+id/attachBtn"
++            android:layout_width="50dp"
++            android:layout_height="50dp"
++            android:background="@null"
++            android:src="@drawable/ic_attatch_black"/>
++
+         <EditText
+             android:id="@+id/messageEt"
+             android:layout_weight="1"
+Index: app/src/main/res/drawable-anydpi/ic_attatch_black.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/drawable-anydpi/ic_attatch_black.xml	(date 1628104385007)
++++ app/src/main/res/drawable-anydpi/ic_attatch_black.xml	(date 1628104385007)
+@@ -0,0 +1,11 @@
++<vector xmlns:android="http://schemas.android.com/apk/res/android"
++    android:width="24dp"
++    android:height="24dp"
++    android:viewportWidth="24"
++    android:viewportHeight="24"
++    android:tint="#000000"
++    android:alpha="0.8">
++  <path
++      android:fillColor="@android:color/white"
++      android:pathData="M16.5,6v11.5c0,2.21 -1.79,4 -4,4s-4,-1.79 -4,-4V5c0,-1.38 1.12,-2.5 2.5,-2.5s2.5,1.12 2.5,2.5v10.5c0,0.55 -0.45,1 -1,1s-1,-0.45 -1,-1V6H10v9.5c0,1.38 1.12,2.5 2.5,2.5s2.5,-1.12 2.5,-2.5V5c0,-2.21 -1.79,-4 -4,-4S7,2.79 7,5v12.5c0,3.04 2.46,5.5 5.5,5.5s5.5,-2.46 5.5,-5.5V6h-1.5z"/>
++</vector>
+Index: app/src/main/res/drawable-anydpi/ic_image_black.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/drawable-anydpi/ic_image_black.xml	(date 1628099801328)
++++ app/src/main/res/drawable-anydpi/ic_image_black.xml	(date 1628099801328)
+@@ -0,0 +1,11 @@
++<vector xmlns:android="http://schemas.android.com/apk/res/android"
++    android:width="24dp"
++    android:height="24dp"
++    android:viewportWidth="24"
++    android:viewportHeight="24"
++    android:tint="#000000"
++    android:alpha="0.8">
++  <path
++      android:fillColor="@android:color/white"
++      android:pathData="M21,19V5c0,-1.1 -0.9,-2 -2,-2H5c-1.1,0 -2,0.9 -2,2v14c0,1.1 0.9,2 2,2h14c1.1,0 2,-0.9 2,-2zM8.5,13.5l2.5,3.01L14.5,12l4.5,6H5l3.5,-4.5z"/>
++</vector>
+Index: app/src/main/AndroidManifest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    package=\"com.example.terraforte\">\r\n\r\n    <application\r\n        android:allowBackup=\"true\"\r\n        android:background=\"@drawable/gradient\"\r\n        android:icon=\"@mipmap/ic_launcher\"\r\n        android:label=\"@string/app_name\"\r\n        android:roundIcon=\"@mipmap/ic_launcher_round\"\r\n        android:supportsRtl=\"true\"\r\n        android:theme=\"@style/AppTheme\">\r\n        <activity android:name=\".ChatActivity\"></activity>\r\n        <activity android:name=\".PerfilContato\" />\r\n        <activity android:name=\".Lista_AddContato\" />\r\n        <activity android:name=\".EditarUsuario\" />\r\n        <activity android:name=\".Perfil\" />\r\n        <activity android:name=\".Enviar_Documento\" />\r\n        <activity android:name=\".Receituarios\" />\r\n        <activity android:name=\".Lista_Contatos\" />\r\n        <activity android:name=\".Cadastrar\" />\r\n        <activity android:name=\".Home\" />\r\n        <activity android:name=\".Login\" />\r\n        <activity\r\n            android:name=\".MainActivity\"\r\n            android:screenOrientation=\"locked\">\r\n            <intent-filter>\r\n                <action android:name=\"android.intent.action.MAIN\" />\r\n\r\n                <category android:name=\"android.intent.category.LAUNCHER\" />\r\n            </intent-filter>\r\n        </activity>\r\n    </application>\r\n\r\n</manifest>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/AndroidManifest.xml	(revision 35a682add9b7c405aa930a28e44430975a833174)
++++ app/src/main/AndroidManifest.xml	(date 1628125280874)
+@@ -10,7 +10,7 @@
+         android:roundIcon="@mipmap/ic_launcher_round"
+         android:supportsRtl="true"
+         android:theme="@style/AppTheme">
+-        <activity android:name=".ChatActivity"></activity>
++        <activity android:name=".ChatActivity"/>
+         <activity android:name=".PerfilContato" />
+         <activity android:name=".Lista_AddContato" />
+         <activity android:name=".EditarUsuario" />
+Index: app/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>apply plugin: 'com.android.application'\r\napply plugin: 'com.google.gms.google-services'\r\n\r\nandroid {\r\n    compileSdkVersion 30\r\n    buildToolsVersion \"30.0.3\"\r\n\r\n    defaultConfig {\r\n        applicationId \"com.example.terraforte\"\r\n        minSdkVersion 19\r\n        targetSdkVersion 30\r\n        versionCode 1\r\n        versionName \"1.0\"\r\n\r\n        testInstrumentationRunner \"androidx.test.runner.AndroidJUnitRunner\"\r\n\r\n        multiDexEnabled true\r\n    }\r\n\r\n    buildTypes {\r\n        release {\r\n            minifyEnabled false\r\n            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'\r\n        }\r\n    }\r\n\r\n}\r\n\r\ndependencies {\r\n    implementation fileTree(dir: 'libs', include: ['*.jar'])\r\n\r\n    implementation 'androidx.appcompat:appcompat:1.3.1'\r\n    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'\r\n    implementation 'com.google.firebase:firebase-auth:21.0.1'\r\n    implementation 'com.google.firebase:firebase-firestore:23.0.3'\r\n    implementation 'com.google.firebase:firebase-database:20.0.1'\r\n    implementation 'androidx.legacy:legacy-support-v4:1.0.0'\r\n    testImplementation 'junit:junit:4.13.2'\r\n    androidTestImplementation 'androidx.test.ext:junit:1.1.3'\r\n    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'\r\n    implementation 'com.google.android.material:material:1.4.0'\r\n    implementation 'androidx.multidex:multidex:2.0.1'\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/build.gradle	(revision 35a682add9b7c405aa930a28e44430975a833174)
++++ app/build.gradle	(date 1628125120829)
+@@ -30,14 +30,17 @@
+     implementation fileTree(dir: 'libs', include: ['*.jar'])
+ 
+     implementation 'androidx.appcompat:appcompat:1.3.1'
+-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
++    implementation 'androidx.constraintlayout:constraintlayout:2.1.0'
+     implementation 'com.google.firebase:firebase-auth:21.0.1'
+     implementation 'com.google.firebase:firebase-firestore:23.0.3'
+     implementation 'com.google.firebase:firebase-database:20.0.1'
+     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
++    implementation 'com.google.firebase:firebase-storage:20.0.0'
+     testImplementation 'junit:junit:4.13.2'
+     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+     implementation 'com.google.android.material:material:1.4.0'
+     implementation 'androidx.multidex:multidex:2.0.1'
++
++    implementation 'com.squareup.picasso:picasso:2.71828'
+ }
+Index: app/src/main/java/com/example/terraforte/MainActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.terraforte;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.appcompat.app.AppCompatActivity;\r\n\r\nimport android.content.Intent;\r\nimport android.database.sqlite.SQLiteDatabase;\r\nimport android.graphics.Color;\r\nimport android.os.Bundle;\r\nimport android.os.Handler;\r\nimport android.view.View;\r\nimport android.widget.EditText;\r\nimport android.widget.ProgressBar;\r\nimport android.widget.Toast;\r\n\r\nimport com.google.android.gms.tasks.OnCompleteListener;\r\nimport com.google.android.gms.tasks.Task;\r\nimport com.google.android.material.snackbar.Snackbar;\r\nimport com.google.firebase.auth.AuthResult;\r\nimport com.google.firebase.auth.FirebaseAuth;\r\nimport com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;\r\nimport com.google.firebase.auth.FirebaseAuthUserCollisionException;\r\nimport com.google.firebase.auth.FirebaseAuthWeakPasswordException;\r\nimport com.google.firebase.auth.FirebaseUser;\r\n\r\nimport static com.example.terraforte.R.layout.login;\r\n\r\npublic class MainActivity extends AppCompatActivity {\r\n    private EditText email;\r\n    private EditText senha;\r\n    private ProgressBar progressBar;\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.login);\r\n\r\n        IniciarComponentes();\r\n    }\r\n\r\n    private void IniciarComponentes() {\r\n        email = findViewById(R.id.idEmailLogin);\r\n        senha = findViewById(R.id.idSenhaLogin);\r\n        progressBar = findViewById(R.id.pb_progressBar_login);\r\n    }\r\n\r\n    public void acessarHome(View view) {\r\n        if ((email.getText().toString().isEmpty()) || (senha.getText().toString().isEmpty())) {\r\n            Toast.makeText(MainActivity.this, \"Preencha todos os campos\", Toast.LENGTH_SHORT).show();\r\n        }else {\r\n            AutenticarUsuario();\r\n        }\r\n    }\r\n\r\n    private void AutenticarUsuario() {\r\n        String edit_email = email.getText().toString();\r\n        String edit_senha = senha.getText().toString();\r\n\r\n        FirebaseAuth.getInstance().signInWithEmailAndPassword(edit_email,edit_senha).addOnCompleteListener(new OnCompleteListener<AuthResult>() {\r\n            @Override\r\n            public void onComplete(@NonNull Task<AuthResult> task) {\r\n                if(task.isSuccessful()) {\r\n                    progressBar.setVisibility(View.VISIBLE);\r\n\r\n                    new Handler().postDelayed(new Runnable() {\r\n                        @Override\r\n                        public void run() {\r\n                            TelaPrincipal();\r\n                        }\r\n                    }, 2000);\r\n                }else {\r\n                    String erro;\r\n                    try {\r\n                        throw task.getException();\r\n                    }catch (Exception e){\r\n                        erro = \"Usuário ou senha inválidos\";\r\n                    }\r\n                    Toast.makeText(MainActivity.this, erro, Toast.LENGTH_SHORT).show();\r\n                }\r\n            }\r\n        });\r\n    }\r\n\r\n    @Override\r\n    protected void onStart() {\r\n        super.onStart();\r\n\r\n        FirebaseUser usuarioAtual = FirebaseAuth.getInstance().getCurrentUser();\r\n\r\n        if(usuarioAtual != null) {\r\n            TelaPrincipal();\r\n        }\r\n    }\r\n\r\n    private void TelaPrincipal() {\r\n        Intent intent = new Intent(MainActivity.this, Home.class);\r\n        startActivity(intent);\r\n        finish();\r\n    }\r\n\r\n\r\n    public void criarConta(View view) {\r\n        Intent intent = new Intent(this, Cadastrar.class);\r\n        startActivity(intent);\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/terraforte/MainActivity.java	(revision 35a682add9b7c405aa930a28e44430975a833174)
++++ app/src/main/java/com/example/terraforte/MainActivity.java	(date 1628124243075)
+@@ -22,6 +22,7 @@
+ import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+ import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
+ import com.google.firebase.auth.FirebaseUser;
++import com.squareup.picasso.Picasso;
+ 
+ import static com.example.terraforte.R.layout.login;
+ 
+Index: app/src/main/res/layout/row_chat_left.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<LinearLayout\r\n    xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"wrap_content\"\r\n    android:orientation=\"vertical\"\r\n    android:id=\"@+id/messageLayout\"\r\n    android:padding=\"10dp\">\r\n\r\n    <LinearLayout\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:orientation=\"horizontal\">\r\n\r\n        <TextView\r\n            android:id=\"@+id/messageTv\"\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_weight=\"1\"\r\n            android:background=\"@drawable/bg_receiver\"\r\n            android:padding=\"15dp\"\r\n            android:text=\"Mensagem do amigo\"\r\n            android:textColor=\"@color/colorBlack\"\r\n            android:textSize=\"16sp\" />\r\n\r\n        <TextView\r\n            android:id=\"@+id/timeTv\"\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:text=\"03/08/2021 10:26 PM\"\r\n            android:textColor=\"@color/colorBlack\"\r\n            android:textSize=\"12sp\"/>\r\n\r\n    </LinearLayout>\r\n\r\n    <TextView\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:id=\"@+id/isSentTv\"\r\n        android:gravity=\"end\"\r\n        android:textAlignment=\"textEnd\"\r\n        android:text=\"Vizualidado\"/>\r\n\r\n</LinearLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/row_chat_left.xml	(revision 35a682add9b7c405aa930a28e44430975a833174)
++++ app/src/main/res/layout/row_chat_left.xml	(date 1628100081915)
+@@ -21,8 +21,19 @@
+             android:padding="15dp"
+             android:text="Mensagem do amigo"
+             android:textColor="@color/colorBlack"
++            android:visibility="gone"
+             android:textSize="16sp" />
+ 
++        <ImageView
++            android:id="@+id/messageIv"
++            android:layout_width="200dp"
++            android:layout_height="200dp"
++            android:adjustViewBounds="true"
++            android:padding="15dp"
++            android:src="@drawable/ic_image_black"
++            android:scaleType="fitCenter"
++            android:background="@drawable/bg_receiver"/>
++
+         <TextView
+             android:id="@+id/timeTv"
+             android:layout_width="wrap_content"
+Index: app/src/main/res/layout/row_chat_right.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<LinearLayout\r\n    xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"wrap_content\"\r\n    android:orientation=\"vertical\"\r\n    android:id=\"@+id/messageLayout\"\r\n    android:padding=\"10dp\">\r\n\r\n    <LinearLayout\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:orientation=\"horizontal\">\r\n\r\n        <TextView\r\n            android:id=\"@+id/timeTv\"\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:text=\"03/08/2021 10:26 PM\"\r\n            android:textColor=\"@color/colorBlack\"\r\n            android:textSize=\"12sp\"/>\r\n\r\n        <TextView\r\n            android:id=\"@+id/messageTv\"\r\n            android:layout_weight=\"1\"\r\n            android:textSize=\"16sp\"\r\n            android:background=\"@drawable/bg_sender\"\r\n            android:padding=\"15dp\"\r\n            android:text=\"Mensagem do amigo\"\r\n            android:textColor=\"@color/colorBlack\"\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"/>\r\n\r\n    </LinearLayout>\r\n\r\n    <TextView\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:id=\"@+id/isSentTv\"\r\n        android:gravity=\"end\"\r\n        android:textAlignment=\"textEnd\"\r\n        android:text=\"Enviado\"/>\r\n\r\n</LinearLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/row_chat_right.xml	(revision 35a682add9b7c405aa930a28e44430975a833174)
++++ app/src/main/res/layout/row_chat_right.xml	(date 1628103241424)
+@@ -7,7 +7,7 @@
+     android:id="@+id/messageLayout"
+     android:padding="10dp">
+ 
+-    <LinearLayout
++    <RelativeLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:orientation="horizontal">
+@@ -20,18 +20,31 @@
+             android:textColor="@color/colorBlack"
+             android:textSize="12sp"/>
+ 
++        <ImageView
++            android:id="@+id/messageIv"
++            android:layout_width="200dp"
++            android:layout_height="200dp"
++            android:adjustViewBounds="true"
++            android:padding="15dp"
++            android:layout_toEndOf="@+id/timeTv"
++            android:src="@drawable/ic_image_black"
++            android:scaleType="fitCenter"
++            android:background="@drawable/bg_sender"/>
++
+         <TextView
+             android:id="@+id/messageTv"
+-            android:layout_weight="1"
+             android:textSize="16sp"
+             android:background="@drawable/bg_sender"
+             android:padding="15dp"
+             android:text="Mensagem do amigo"
++            android:layout_alignParentEnd="true"
++            android:layout_toEndOf="@+id/timeTv"
+             android:textColor="@color/colorBlack"
++            android:visibility="gone"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"/>
+ 
+-    </LinearLayout>
++    </RelativeLayout>
+ 
+     <TextView
+         android:layout_width="match_parent"
+Index: app/src/main/java/com/example/terraforte/ModelChat.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.terraforte;\r\n\r\npublic class ModelChat {\r\n    String message, receiver, sender, timestamp;\r\n    boolean isSeen;\r\n\r\n    public ModelChat() {\r\n    }\r\n\r\n    public ModelChat(String message, String receiver, String sender, String timestamp, boolean isSeen) {\r\n        this.message = message;\r\n        this.receiver = receiver;\r\n        this.sender = sender;\r\n        this.timestamp = timestamp;\r\n        this.isSeen = isSeen;\r\n    }\r\n\r\n    public String getMessage() {\r\n        return message;\r\n    }\r\n\r\n    public void setMessage(String message) {\r\n        this.message = message;\r\n    }\r\n\r\n    public String getReceiver() {\r\n        return receiver;\r\n    }\r\n\r\n    public void setReceiver(String receiver) {\r\n        this.receiver = receiver;\r\n    }\r\n\r\n    public String getSender() {\r\n        return sender;\r\n    }\r\n\r\n    public void setSender(String sender) {\r\n        this.sender = sender;\r\n    }\r\n\r\n    public String getTimestamp() {\r\n        return timestamp;\r\n    }\r\n\r\n    public void setTimestamp(String timestamp) {\r\n        this.timestamp = timestamp;\r\n    }\r\n\r\n    public boolean isSeen() {\r\n        return isSeen;\r\n    }\r\n\r\n    public void setSeen(boolean seen) {\r\n        isSeen = seen;\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/terraforte/ModelChat.java	(revision 35a682add9b7c405aa930a28e44430975a833174)
++++ app/src/main/java/com/example/terraforte/ModelChat.java	(date 1628103387156)
+@@ -1,20 +1,29 @@
+ package com.example.terraforte;
+ 
+ public class ModelChat {
+-    String message, receiver, sender, timestamp;
++    String message, receiver, sender, timestamp, type;
+     boolean isSeen;
+ 
+     public ModelChat() {
+     }
+ 
+-    public ModelChat(String message, String receiver, String sender, String timestamp, boolean isSeen) {
++    public ModelChat(String message, String receiver, String sender, String timestamp, String type, boolean isSeen) {
+         this.message = message;
+         this.receiver = receiver;
+         this.sender = sender;
+         this.timestamp = timestamp;
++        this.type = type;
+         this.isSeen = isSeen;
+     }
+ 
++    public String getType() {
++        return type;
++    }
++
++    public void setType(String type) {
++        this.type = type;
++    }
++
+     public String getMessage() {
+         return message;
+     }
