@@ -7,11 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowInsets;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.view.menu.MenuView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -22,6 +24,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
 import java.util.Calendar;
@@ -59,12 +62,25 @@ public class AdapterChat extends RecyclerView.Adapter<AdapterChat.Myholer> {
     public void onBindViewHolder(@NonNull Myholer myholer, final int i) {
         String message = chatList.get(i).getMessage();
         String timeStamp = chatList.get(i).getTimestamp();
+        String type = chatList.get(i).getType();
 
         //Calendar cal = Calendar.getInstance(Locale.ENGLISH);
         //cal.setTimeInMillis(Long.parseLong(timeStamp));
         //String dateTime = DateFormat.getInstance().format(cal).toString();
 
         myholer.timeTv.setText("04/08/2021 12:40 PM");
+
+        if(type.equals("text")) {
+            myholer.messageTv.setVisibility(View.VISIBLE);
+            myholer.messageIv.setVisibility(View.GONE);
+
+            myholer.messageTv.setText(message);
+        }else {
+            myholer.messageTv.setVisibility(View.GONE);
+            myholer.messageIv.setVisibility(View.VISIBLE);
+
+            Picasso.get().load(message).placeholder(R.drawable.ic_image_black).into(myholer.messageIv);
+        }
 
         myholer.messageTv.setText(message);
         //myholer.timeTv.setText(dateTime);
@@ -155,12 +171,14 @@ public class AdapterChat extends RecyclerView.Adapter<AdapterChat.Myholer> {
 
     class Myholer extends RecyclerView.ViewHolder{
 
+        ImageView messageIv;
         TextView messageTv, timeTv, isSeenTv;
         LinearLayout messageLayout;
 
         public Myholer(@NonNull View itemView) {
             super(itemView);
 
+            messageIv = itemView.findViewById(R.id.messageIv);
             messageTv = itemView.findViewById(R.id.messageTv);
             timeTv = itemView.findViewById(R.id.timeTv);
             isSeenTv = itemView.findViewById(R.id.isSentTv);
