@@ -26,13 +26,13 @@
 
         <ImageView
             android:id="@+id/messageIv"
-            android:layout_width="200dp"
+            android:layout_width="203dp"
             android:layout_height="200dp"
             android:adjustViewBounds="true"
+            android:background="@drawable/bg_receiver"
             android:padding="15dp"
-            android:src="@drawable/ic_image_black"
             android:scaleType="fitCenter"
-            android:background="@drawable/bg_receiver"/>
+            android:src="@drawable/ic_image_black" />
 
         <TextView
             android:id="@+id/timeTv"
@@ -52,5 +52,21 @@
         android:visibility="invisible"
         android:textAlignment="textEnd"
         android:text="Vizualidado"/>
+
+    <TextView
+        android:id="@+id/downloadtv_Chat"
+        android:layout_width="202dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="15dp"
+        android:background="#e9f5f8"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="Baixar"
+        android:textColor="#04095E"
+        android:textSize="15dp"
+        android:textStyle="bold"
+        android:visibility="visible" />
 
 </LinearLayout>
