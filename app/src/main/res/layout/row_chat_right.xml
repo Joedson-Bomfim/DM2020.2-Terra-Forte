@@ -28,6 +28,7 @@
             android:padding="15dp"
             android:layout_toEndOf="@+id/timeTv"
             android:src="@drawable/ic_image_black"
+            android:layout_marginStart="50dp"
             android:scaleType="fitCenter"
             android:background="@drawable/bg_sender"/>
 
@@ -54,21 +55,5 @@
         android:visibility="invisible"
         android:textAlignment="textEnd"
         android:text="Enviado"/>
-
-    <TextView
-        android:id="@+id/downloadtv_Chat"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginRight="15dp"
-        android:background="#e9f5f8"
-        android:gravity="center"
-        android:visibility="gone"
-        android:padding="5dp"
-        android:text="Baixar"
-        android:textColor="#04095E"
-        android:textSize="15dp"
-        android:textStyle="bold" />
 
 </LinearLayout>

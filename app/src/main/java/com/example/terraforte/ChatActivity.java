@@ -282,7 +282,7 @@ public class ChatActivity extends AppCompatActivity {
         progressDialog.setMessage("Enviando imagem...");
         progressDialog.show();
 
-        String timeStamp = ""+System.currentTimeMillis();
+        String timeStamp = ""+UUID.randomUUID().toString();
 
         String fileNameAndPath = "ChatImage/"+"post_"+timeStamp;
 
