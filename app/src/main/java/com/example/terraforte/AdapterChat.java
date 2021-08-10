@@ -97,11 +97,19 @@ public class AdapterChat extends RecyclerView.Adapter<AdapterChat.Myholer> {
         if(type.equals("text")) {
             myholer.messageTv.setVisibility(View.VISIBLE);
             myholer.messageIv.setVisibility(View.GONE);
+            myholer.messageDocIv.setVisibility(View.GONE);
+
+            myholer.messageTv.setText(message);
+        }else if(type.equals("pdf")) {
+            myholer.messageTv.setVisibility(View.GONE);
+            myholer.messageIv.setVisibility(View.GONE);
+            myholer.messageDocIv.setVisibility(View.VISIBLE);
 
             myholer.messageTv.setText(message);
         }else {
             myholer.messageTv.setVisibility(View.GONE);
             myholer.messageIv.setVisibility(View.VISIBLE);
+            myholer.messageDocIv.setVisibility(View.GONE);
 
             Picasso.get().load(message).placeholder(R.drawable.ic_image_black).into(myholer.messageIv);
         }
@@ -278,7 +286,7 @@ public class AdapterChat extends RecyclerView.Adapter<AdapterChat.Myholer> {
 
     class Myholer extends RecyclerView.ViewHolder{
 
-        ImageView messageIv;
+        ImageView messageIv, messageDocIv;
         TextView messageTv, timeTv, isSeenTv;
         LinearLayout messageLayout;
 
@@ -286,6 +294,7 @@ public class AdapterChat extends RecyclerView.Adapter<AdapterChat.Myholer> {
             super(itemView);
 
             messageIv = itemView.findViewById(R.id.messageIv);
+            messageDocIv = itemView.findViewById(R.id.messageDocIv);
             messageTv = itemView.findViewById(R.id.messageTv);
             timeTv = itemView.findViewById(R.id.timeTv);
             isSeenTv = itemView.findViewById(R.id.isSentTv);
