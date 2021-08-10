@@ -201,12 +201,33 @@ public class AdapterChat extends RecyclerView.Adapter<AdapterChat.Myholer> {
                         androidx.appcompat.app.AlertDialog.Builder dialog = new androidx.appcompat.app.AlertDialog.Builder(context);
                         dialog.setTitle("Baixar imagem");
                         dialog.setMessage("Deseja baixar a imagem?");
-                        dialog.setIcon(android.R.drawable.ic_menu_save);
+                        dialog.setIcon(android.R.drawable.ic_menu_gallery);
 
                         dialog.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 downloadFiles(context, "teste", ".png", DIRECTORY_DOWNLOADS, mensagem);
+                            }
+                        });
+
+                        dialog.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+
+                        dialog.show();
+                    }else if(tipoMensagem.equals("pdf") && !idSender.equals(myUID)) {
+                        androidx.appcompat.app.AlertDialog.Builder dialog = new androidx.appcompat.app.AlertDialog.Builder(context);
+                        dialog.setTitle("Baixar pdf");
+                        dialog.setMessage("Deseja baixar o pdf?");
+                        dialog.setIcon(android.R.drawable.ic_menu_save);
+
+                        dialog.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                downloadFiles(context, "teste", ".pdf", DIRECTORY_DOWNLOADS, mensagem);
                             }
                         });
 
