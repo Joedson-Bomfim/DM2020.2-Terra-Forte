@@ -37,7 +37,9 @@ import java.util.Map;
 
 public class Cadastrar extends AppCompatActivity {
     private EditText email, senha, senha_confirmar, nome_usuario, nome_completo, apelido, telefone, endereco;
-    String usuarioID;
+    private RadioGroup radioGroup;
+    private RadioButton button_escolhido;
+    String usuarioID, funcao_escolhida;
 
     @SuppressLint("WrongConstant")
     @Override
@@ -57,6 +59,7 @@ public class Cadastrar extends AppCompatActivity {
         apelido = findViewById(R.id.idApelidoCadastro);
         telefone = findViewById(R.id.idTelefoneCadastro);
         endereco = findViewById(R.id.idEnderecoCadastro);
+        radioGroup = findViewById(R.id.radioiGroupCadastrar);
     }
 
     public void acessarLogin(View v) {
@@ -108,9 +111,17 @@ public class Cadastrar extends AppCompatActivity {
         String edit_apelido = apelido.getText().toString();
         String edit_telefone = telefone.getText().toString();
         String edit_endereco = endereco.getText().toString();
-        String edit_funcao = "Agricultor";
+
+        int idRadioGrupEscolhido = radioGroup.getCheckedRadioButtonId();
+
+        if(idRadioGrupEscolhido>0){
+            button_escolhido = findViewById(idRadioGrupEscolhido);
+            funcao_escolhida = button_escolhido.getText().toString();
+        }
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         Map<String,Object> usuarios = new HashMap<>();
         usuarios.put("nome_usuario", edit_nome_usuario);
@@ -118,9 +129,8 @@ public class Cadastrar extends AppCompatActivity {
         usuarios.put("apelido", edit_apelido);
         usuarios.put("telefone", edit_telefone);
         usuarios.put("endereco", edit_endereco);
-        usuarios.put("funcao", edit_funcao);
-
-        usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        usuarios.put("funcao", funcao_escolhida);
+        usuarios.put("id_usuario", usuarioID);
 
         DocumentReference documentReference = db.collection("Usuarios").document(usuarioID);
         documentReference.set(usuarios).addOnSuccessListener(new OnSuccessListener<Void>() {

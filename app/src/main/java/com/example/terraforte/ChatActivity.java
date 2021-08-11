@@ -47,6 +47,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.google.protobuf.StringValue;
 
@@ -56,6 +57,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
+
+import static android.icu.text.DateTimePatternGenerator.PatternInfo.OK;
 
 public class ChatActivity extends AppCompatActivity {
     RecyclerView recyclerView;
@@ -74,6 +77,8 @@ public class ChatActivity extends AppCompatActivity {
     String myUid;
     String hisUid;
 
+    boolean escolhaDocumento = false;
+
     //permissão constants
     private static final int CAMERA_REQUEST_CODE = 100;
     private static final int STORAGE_REQUEST_CODE = 200;
@@ -86,7 +91,9 @@ public class ChatActivity extends AppCompatActivity {
     String[] cameraPermissions;
     String[] storagePermissions;
 
-    Uri image_rui = null;
+    Uri uri = null;
+
+    StorageTask uploadTask;
 
     //Talvez poderemos usar isso com os documentos
     /*
@@ -102,6 +109,8 @@ public class ChatActivity extends AppCompatActivity {
      */
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+    String timeStamp = UUID.randomUUID().toString();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,7 +162,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void showImagePickDialog() {
-        String[] options = {"Camera", "Gallery"};
+        String[] options = {"Camera", "Gallery", "Documentos"};
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Choose Image from");
@@ -167,36 +176,38 @@ public class ChatActivity extends AppCompatActivity {
                 }
             }
             if(which == 1) {
-                pickFromGallery();
+                pickFromMemory(1);
+            }
+            if(which == 2) {
+                escolhaDocumento = true;
+                pickFromMemory(2);
             }
         }));
         builder.create().show();
     }
 
-    private void pickFromGallery() {
-        Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setType("image/*");
-        startActivityForResult(intent, IMAGE_PICK_GALLERY_CODE);
+    private void pickFromMemory(int numero) {
+        if(numero == 1) {
+            Intent intent = new Intent(Intent.ACTION_PICK);
+            intent.setType("image/*");
+            startActivityForResult(intent, IMAGE_PICK_GALLERY_CODE);
+        }else if(numero == 2) {
+            Intent intent = new Intent();
+            intent.setType("application/pdf");
+            intent.setAction(intent.ACTION_GET_CONTENT);
+            startActivityForResult(Intent.createChooser(intent, "ARQUIVO PDF SELECIONADO"), 12);
+        }
     }
 
     private void pickFromCamera() {
         ContentValues cv = new ContentValues();
         cv.put(MediaStore.Images.Media.TITLE,"Temp Pick");
         cv.put(MediaStore.Images.Media.DESCRIPTION,"Temp Descr");
-        image_rui = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, cv);
+        uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, cv);
 
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, image_rui);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
         startActivityForResult(intent, IMAGE_PICK_CAMERA_CODE);
-    }
-
-    private boolean checkStoregePermission() {
-        boolean result = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == (PackageManager.PERMISSION_GRANTED);
-        return result;
-    }
-
-    private void requestStoragePermission() {
-        ActivityCompat.requestPermissions(this, storagePermissions, STORAGE_REQUEST_CODE);
     }
 
     private boolean checkCameraPermission() {
@@ -263,7 +274,7 @@ public class ChatActivity extends AppCompatActivity {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
 
         //String timeStamp = String.valueOf(System.currentTimeMillis());
-        String timeStamp = UUID.randomUUID().toString();
+        //String timeStamp = UUID.randomUUID().toString();
 
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("sender",myUid);
@@ -282,7 +293,7 @@ public class ChatActivity extends AppCompatActivity {
         progressDialog.setMessage("Enviando imagem...");
         progressDialog.show();
 
-        String timeStamp = ""+UUID.randomUUID().toString();
+        //String timeStamp = ""+UUID.randomUUID().toString();
 
         String fileNameAndPath = "ChatImage/"+"post_"+timeStamp;
 
@@ -321,6 +332,48 @@ public class ChatActivity extends AppCompatActivity {
                 progressDialog.dismiss();
             }
         });
+    }
+
+    private void sendPdfMessage(Uri image_rui) throws IOException {
+        ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Enviando documento...");
+        progressDialog.show();
+
+        if(escolhaDocumento) {
+            String fileNameAndPath = "ChatImage/"+"doc_"+timeStamp;
+
+            StorageReference ref = FirebaseStorage.getInstance().getReference().child(fileNameAndPath);
+
+            ref.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    progressDialog.dismiss();
+
+                    Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
+                    while (!uriTask.isSuccessful());
+                    String downloadUri = uriTask.getResult().toString();
+
+                    if(uriTask.isSuccessful()) {
+                        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+
+                        HashMap<String, Object> hashMap = new HashMap<>();
+                        hashMap.put("sender", myUid);
+                        hashMap.put("receiver", hisUid);
+                        hashMap.put("message", downloadUri);
+                        hashMap.put("timestamp", timeStamp);
+                        hashMap.put("type", "pdf");
+                        hashMap.put("isSeen", false);
+
+                        databaseReference.child("Chats").push().setValue(hashMap);
+                    }
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    progressDialog.dismiss();
+                }
+            });
+        }
     }
 
     private void IniciarComponentes() {
@@ -381,7 +434,7 @@ public class ChatActivity extends AppCompatActivity {
                 if (grantResults.length > 0) {
                     boolean storageAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
                     if (storageAccepted) {
-                        pickFromGallery();
+                        pickFromMemory(1);
                     } else {
                         Toast.makeText(this, "Necessário a permissão de armazenamento", Toast.LENGTH_LONG).show();
                     }
@@ -400,23 +453,35 @@ public class ChatActivity extends AppCompatActivity {
 
             if(requestCode == IMAGE_PICK_GALLERY_CODE) {
 
-                image_rui = data.getData();
+                uri = data.getData();
 
                 try {
-                    sendImageMessage(image_rui);
+                    sendImageMessage(uri);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }else if(resultCode == IMAGE_PICK_CAMERA_CODE) {
 
                 try {
-                    sendImageMessage(image_rui);
+                    sendImageMessage(uri);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
 
             }
+
         }
+
+        if(requestCode==12 && resultCode==RESULT_OK && data!=null && data.getData()!=null){
+            uri = data.getData();
+            try {
+                sendPdfMessage(uri);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+
         super.onActivityResult(requestCode, resultCode, data);
     }
 }

@@ -30,6 +30,19 @@
             android:src="@drawable/ic_image_black"
             android:layout_marginStart="50dp"
             android:scaleType="fitCenter"
+            android:visibility="gone"
+            android:background="@drawable/bg_sender"/>
+
+        <ImageView
+            android:id="@+id/messageDocIv"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:adjustViewBounds="true"
+            android:padding="15dp"
+            android:layout_toEndOf="@+id/timeTv"
+            android:src="@drawable/ic_pdf_black"
+            android:layout_marginStart="90dp"
+            android:scaleType="fitCenter"
             android:background="@drawable/bg_sender"/>
 
         <TextView

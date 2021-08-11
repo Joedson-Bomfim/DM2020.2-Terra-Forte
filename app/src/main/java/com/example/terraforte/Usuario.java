@@ -3,23 +3,23 @@ package com.example.terraforte;
 import java.io.Serializable;
 
 public class Usuario {
-    private String nome_usuario, apelido, email, usuarioId;
+    private String nome_usuario, apelido, email, id_usuario;
 
     public Usuario() {}
 
-    public Usuario(String nome_usuario, String apelido, String email, String usuarioId) {
+    public Usuario(String nome_usuario, String apelido, String email, String id_usuario) {
         this.nome_usuario = nome_usuario;
         this.apelido = apelido;
         this.email = email;
-        this.usuarioId = usuarioId;
+        this.id_usuario = id_usuario;
     }
 
-    public String getUsuarioId() {
-        return usuarioId;
+    public String getId_usuario() {
+        return id_usuario;
     }
 
-    public void setUsuarioId(String uid) {
-        usuarioId = uid;
+    public void setId_usuario(String uid) {
+        id_usuario = uid;
     }
 
     public String getNome_usuario() {

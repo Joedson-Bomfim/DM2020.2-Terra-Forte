@@ -68,17 +68,17 @@ public class ListaAddContatoAdapter extends RecyclerView.Adapter<ListaAddContato
             select.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String nomeUsuario = "";
+                    String idContato = "";
 
                     int pos = getAdapterPosition();
 
                     if (pos!=RecyclerView.NO_POSITION){
 
-                        nomeUsuario = datalist.get(pos).getApelido();
+                        idContato = datalist.get(pos).getId_usuario();
 
                         Intent intent = new Intent(v.getContext(), PerfilContato.class);
                         Bundle b = new Bundle();
-                        b.putString("tecnicoId", nomeUsuario.toString());
+                        b.putString("IdContato", idContato);
                         intent.putExtras(b);
                         v.getContext().startActivity(intent);
 
