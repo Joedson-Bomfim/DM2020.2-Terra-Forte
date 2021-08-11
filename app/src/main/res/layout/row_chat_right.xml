@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="03/08/2021 10:26 PM"
-            android:textColor="@color/colorBlack"
+            android:textColor="@color/colorWhite"
             android:textSize="12sp"/>
 
         <ImageView
@@ -39,8 +39,8 @@
             android:layout_height="150dp"
             android:adjustViewBounds="true"
             android:padding="15dp"
-            android:layout_toEndOf="@+id/timeTv"
             android:src="@drawable/ic_pdf_black"
+            android:layout_toEndOf="@+id/timeTv"
             android:layout_marginStart="90dp"
             android:scaleType="fitCenter"
             android:background="@drawable/bg_sender"/>
@@ -54,6 +54,7 @@
             android:layout_alignParentEnd="true"
             android:layout_toEndOf="@+id/timeTv"
             android:textColor="@color/colorBlack"
+            android:layout_marginStart="5dp"
             android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>

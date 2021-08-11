@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowInsets;
+import android.widget.CalendarView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -46,7 +47,9 @@ import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -60,6 +63,7 @@ public class AdapterChat extends RecyclerView.Adapter<AdapterChat.Myholer> {
     private static final int MSG_TYPE_RIHGT = 1;
     Context context;
     List<ModelChat> chatList;
+    private  int diaAtual,mesAtual,anoAtual;
 
     FirebaseUser fUser;
 
@@ -87,12 +91,13 @@ public class AdapterChat extends RecyclerView.Adapter<AdapterChat.Myholer> {
         String message = chatList.get(i).getMessage();
         String timeStamp = chatList.get(i).getTimestamp();
         String type = chatList.get(i).getType();
+        String dataHora = chatList.get(i).getDate_time();
 
         //Calendar cal = Calendar.getInstance(Locale.ENGLISH);
         //cal.setTimeInMillis(Long.parseLong(timeStamp));
         //String dateTime = DateFormat.getInstance().format(cal).toString();
 
-        myholer.timeTv.setText("04/08/2021 12:40 PM");
+        myholer.timeTv.setText(dataHora);
 
         if(type.equals("text")) {
             myholer.messageTv.setVisibility(View.VISIBLE);

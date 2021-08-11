@@ -53,9 +53,12 @@ import com.google.protobuf.StringValue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 import static android.icu.text.DateTimePatternGenerator.PatternInfo.OK;
@@ -76,6 +79,7 @@ public class ChatActivity extends AppCompatActivity {
 
     String myUid;
     String hisUid;
+    String currentDateandTime;
 
     boolean escolhaDocumento = false;
 
@@ -125,6 +129,8 @@ public class ChatActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
 
         hisUid = getIntent().getStringExtra("idContato");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss ", Locale.getDefault());
+        currentDateandTime = sdf.format(new Date());
 
         DocumentReference documentReference = db.collection("Usuarios").document(hisUid);
         documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
@@ -288,6 +294,7 @@ public class ChatActivity extends AppCompatActivity {
         hashMap.put("message",message);
         hashMap.put("timestamp", timeStamp);
         hashMap.put("isSeen",false);
+        hashMap.put("date_time", currentDateandTime);
         hashMap.put("type","text");
         databaseReference.child("Chats").push().setValue(hashMap);
 
@@ -328,6 +335,7 @@ public class ChatActivity extends AppCompatActivity {
                     hashMap.put("timestamp", timeStamp);
                     hashMap.put("type", "image");
                     hashMap.put("isSeen", false);
+                    hashMap.put("date_time", currentDateandTime);
 
                     databaseReference.child("Chats").push().setValue(hashMap);
                 }
@@ -369,6 +377,7 @@ public class ChatActivity extends AppCompatActivity {
                         hashMap.put("timestamp", timeStamp);
                         hashMap.put("type", "pdf");
                         hashMap.put("isSeen", false);
+                        hashMap.put("date_time", currentDateandTime);
 
                         databaseReference.child("Chats").push().setValue(hashMap);
                     }
