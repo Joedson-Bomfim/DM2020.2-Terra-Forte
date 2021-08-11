@@ -37,7 +37,7 @@ import java.util.Map;
 
 public class Cadastrar extends AppCompatActivity {
     private EditText email, senha, senha_confirmar, nome_usuario, nome_completo, apelido, telefone, endereco;
-    String usuarioID;
+    String usuarioID, edit_email;
 
     @SuppressLint("WrongConstant")
     @Override
@@ -114,6 +114,7 @@ public class Cadastrar extends AppCompatActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        edit_email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
 
         Map<String,Object> usuarios = new HashMap<>();
         usuarios.put("nome_usuario", edit_nome_usuario);
@@ -123,6 +124,7 @@ public class Cadastrar extends AppCompatActivity {
         usuarios.put("endereco", edit_endereco);
         usuarios.put("funcao", edit_funcao);
         usuarios.put("id_usuario", usuarioID);
+        usuarios.put("email", edit_email);
 
         DocumentReference documentReference = db.collection("Usuarios").document(usuarioID);
         documentReference.set(usuarios).addOnSuccessListener(new OnSuccessListener<Void>() {

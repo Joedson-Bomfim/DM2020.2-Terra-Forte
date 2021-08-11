@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,9 +26,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 public class PerfilContato extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    TextView edit_nomeUsuario, edit_apelido, edit_telefone, edit_endereco, edit_nomeCompleto, funcao;
+    TextView edit_nomeUsuario, edit_apelido, edit_email, edit_telefone, edit_endereco, edit_nomeCompleto, funcao;
     Button conversar;
-    String id_contato;
+    String id_contato, recebeEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +50,7 @@ public class PerfilContato extends AppCompatActivity {
     private void IniciarComponentes() {
         edit_nomeUsuario = findViewById(R.id.idNomeUsuarioPerfilContato);
         edit_apelido = findViewById(R.id.idApelidoPerfilContato);
+        edit_email = findViewById(R.id.idEmailPerfilContato);
         conversar = findViewById(R.id.btn_conversarPerfilContato);
         edit_telefone = findViewById(R.id.idTelefonePerfilContato);
         edit_endereco = findViewById(R.id.idEnderecoPerfilContato);
@@ -77,6 +79,7 @@ public class PerfilContato extends AppCompatActivity {
                                         if(documentSnapshot != null) {
                                             edit_nomeUsuario.setText(documentSnapshot.getString("nome_usuario"));
                                             edit_apelido.setText(documentSnapshot.getString("apelido"));
+                                            edit_email.setText(documentSnapshot.getString("email"));
                                             edit_telefone.setText(documentSnapshot.getString("telefone"));
                                             edit_endereco.setText(documentSnapshot.getString("endereco"));
                                             edit_nomeCompleto.setText(documentSnapshot.getString("nome_completo"));
@@ -92,5 +95,10 @@ public class PerfilContato extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 }

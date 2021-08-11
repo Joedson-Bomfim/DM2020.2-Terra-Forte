@@ -54,7 +54,7 @@ public class ListaAddContatoAdapter extends RecyclerView.Adapter<ListaAddContato
 
     class myViewHolder extends RecyclerView.ViewHolder {
 
-        TextView nome_usuario, apelido, select, UsuarioId;
+        TextView nome_usuario, apelido, select;
         //ImageView place_image;
 
         public myViewHolder(@NonNull View itemView) {
