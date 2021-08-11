@@ -91,22 +91,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="80dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="91dp"
         android:text="cancelar"
         android:textColor="#FF0F0F"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroupEditPerfil" />
+        app:layout_constraintTop_toBottomOf="@+id/idSenhaConfirmaEditPerfil" />
 
     <Button
         android:id="@+id/btn_atualizar_editPerfil"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="91dp"
         android:layout_marginEnd="80dp"
         android:text="Atualizar"
         android:textColor="#4CAF50"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroupEditPerfil" />
+        app:layout_constraintTop_toBottomOf="@+id/idSenhaConfirmaEditPerfil" />
 
     <TextView
         android:id="@+id/textView21"
@@ -258,43 +258,5 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toStartOf="@+id/idEnderecoEditPerfil"
         app:layout_constraintTop_toBottomOf="@+id/textView21" />
-
-    <TextView
-        android:id="@+id/textView41"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="FUNÇÃO:"
-        android:textColor="#FBFBFB"
-        android:textColorHint="#FFFFFF"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="@+id/textView39"
-        app:layout_constraintTop_toBottomOf="@+id/textView39" />
-
-    <RadioGroup
-        android:id="@+id/radioGroupEditPerfil"
-        android:layout_width="124dp"
-        android:layout_height="62dp"
-        app:layout_constraintStart_toEndOf="@+id/textView41"
-        app:layout_constraintTop_toTopOf="@+id/textView41">
-
-        <RadioButton
-            android:id="@+id/rbAgricultorEditPerfil"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Agricultor"
-            android:textColor="#FBFBFB"
-            android:textColorHint="#FFFFFF"
-            android:textSize="16sp" />
-
-        <RadioButton
-            android:id="@+id/rbAgronomoEdittPerfil"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Agrônomo"
-            android:textColor="#FBFBFB"
-            android:textColorHint="#FFFFFF"
-            android:textSize="16sp" />
-    </RadioGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
