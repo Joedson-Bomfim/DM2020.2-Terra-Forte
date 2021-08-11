@@ -37,9 +37,7 @@ import java.util.Map;
 
 public class Cadastrar extends AppCompatActivity {
     private EditText email, senha, senha_confirmar, nome_usuario, nome_completo, apelido, telefone, endereco;
-    private RadioGroup radioGroup;
-    private RadioButton button_escolhido;
-    String usuarioID, funcao_escolhida;
+    String usuarioID;
 
     @SuppressLint("WrongConstant")
     @Override
@@ -59,7 +57,6 @@ public class Cadastrar extends AppCompatActivity {
         apelido = findViewById(R.id.idApelidoCadastro);
         telefone = findViewById(R.id.idTelefoneCadastro);
         endereco = findViewById(R.id.idEnderecoCadastro);
-        radioGroup = findViewById(R.id.radioiGroupCadastrar);
     }
 
     public void acessarLogin(View v) {
@@ -111,13 +108,7 @@ public class Cadastrar extends AppCompatActivity {
         String edit_apelido = apelido.getText().toString();
         String edit_telefone = telefone.getText().toString();
         String edit_endereco = endereco.getText().toString();
-
-        int idRadioGrupEscolhido = radioGroup.getCheckedRadioButtonId();
-
-        if(idRadioGrupEscolhido>0){
-            button_escolhido = findViewById(idRadioGrupEscolhido);
-            funcao_escolhida = button_escolhido.getText().toString();
-        }
+        String edit_funcao = "Agricultor";
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -127,7 +118,7 @@ public class Cadastrar extends AppCompatActivity {
         usuarios.put("apelido", edit_apelido);
         usuarios.put("telefone", edit_telefone);
         usuarios.put("endereco", edit_endereco);
-        usuarios.put("funcao", funcao_escolhida);
+        usuarios.put("funcao", edit_funcao);
 
         usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 

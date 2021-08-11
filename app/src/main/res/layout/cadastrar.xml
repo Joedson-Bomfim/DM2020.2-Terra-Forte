@@ -87,16 +87,6 @@
             app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
         <TextView
-            android:id="@+id/textView13"
-            android:layout_width="174dp"
-            android:layout_height="31dp"
-            android:text="Qual a sua função?"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="#FFFFFF"
-            app:layout_constraintStart_toStartOf="@+id/idEnderecoCadastro"
-            app:layout_constraintTop_toBottomOf="@+id/idEnderecoCadastro" />
-
-        <TextView
             android:id="@+id/textView14"
             android:layout_width="174dp"
             android:layout_height="31dp"
@@ -201,36 +191,13 @@
             android:id="@+id/button2"
             android:layout_width="200dp"
             android:layout_height="46dp"
-            android:layout_marginTop="16dp"
             android:layout_marginBottom="8dp"
             android:onClick="acessarLogin"
             android:text="Cadastrar"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/radioiGroupCadastrar" />
-
-        <RadioGroup
-            android:id="@+id/radioiGroupCadastrar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@+id/textView13"
-            app:layout_constraintTop_toBottomOf="@+id/textView13">
-
-            <RadioButton
-                android:id="@+id/idAgricultorCadastro"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Agricultor"
-                android:textColor="#FFFFFF" />
-
-            <RadioButton
-                android:id="@+id/idAgronomoCadastro"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Agrônomo"
-                android:textColor="#FFFFFF" />
-        </RadioGroup>
+            app:layout_constraintTop_toBottomOf="@+id/idEnderecoCadastro" />
 
         <EditText
             android:id="@+id/idEmailCadastro"
