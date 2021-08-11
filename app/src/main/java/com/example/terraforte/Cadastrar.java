@@ -121,6 +121,8 @@ public class Cadastrar extends AppCompatActivity {
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+        usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
         Map<String,Object> usuarios = new HashMap<>();
         usuarios.put("nome_usuario", edit_nome_usuario);
         usuarios.put("nome_completo",edit_nome_completo);
@@ -128,8 +130,7 @@ public class Cadastrar extends AppCompatActivity {
         usuarios.put("telefone", edit_telefone);
         usuarios.put("endereco", edit_endereco);
         usuarios.put("funcao", funcao_escolhida);
-
-        usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        usuarios.put("id_usuario", usuarioID);
 
         DocumentReference documentReference = db.collection("Usuarios").document(usuarioID);
         documentReference.set(usuarios).addOnSuccessListener(new OnSuccessListener<Void>() {

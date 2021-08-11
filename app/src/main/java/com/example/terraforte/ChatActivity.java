@@ -334,6 +334,48 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
+    private void sendPdfMessage(Uri image_rui) throws IOException {
+        ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Enviando documento...");
+        progressDialog.show();
+
+        if(escolhaDocumento) {
+            String fileNameAndPath = "ChatImage/"+"doc_"+timeStamp;
+
+            StorageReference ref = FirebaseStorage.getInstance().getReference().child(fileNameAndPath);
+
+            ref.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    progressDialog.dismiss();
+
+                    Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
+                    while (!uriTask.isSuccessful());
+                    String downloadUri = uriTask.getResult().toString();
+
+                    if(uriTask.isSuccessful()) {
+                        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+
+                        HashMap<String, Object> hashMap = new HashMap<>();
+                        hashMap.put("sender", myUid);
+                        hashMap.put("receiver", hisUid);
+                        hashMap.put("message", downloadUri);
+                        hashMap.put("timestamp", timeStamp);
+                        hashMap.put("type", "pdf");
+                        hashMap.put("isSeen", false);
+
+                        databaseReference.child("Chats").push().setValue(hashMap);
+                    }
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    progressDialog.dismiss();
+                }
+            });
+        }
+    }
+
     private void IniciarComponentes() {
         recyclerView = findViewById(R.id.chat_recyclerView);
         nameTv = findViewById(R.id.nameTv);
@@ -431,46 +473,11 @@ public class ChatActivity extends AppCompatActivity {
         }
 
         if(requestCode==12 && resultCode==RESULT_OK && data!=null && data.getData()!=null){
-            ProgressDialog progressDialog = new ProgressDialog(this);
-            progressDialog.setMessage("Enviando documento...");
-            progressDialog.show();
-
             uri = data.getData();
-
-            if(escolhaDocumento) {
-                String fileNameAndPath = "ChatImage/"+"doc_"+timeStamp;
-
-                StorageReference ref = FirebaseStorage.getInstance().getReference().child(fileNameAndPath);
-
-                ref.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        progressDialog.dismiss();
-
-                        Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
-                        while (!uriTask.isSuccessful());
-                        String downloadUri = uriTask.getResult().toString();
-
-                        if(uriTask.isSuccessful()) {
-                            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-
-                            HashMap<String, Object> hashMap = new HashMap<>();
-                            hashMap.put("sender", myUid);
-                            hashMap.put("receiver", hisUid);
-                            hashMap.put("message", downloadUri);
-                            hashMap.put("timestamp", timeStamp);
-                            hashMap.put("type", "pdf");
-                            hashMap.put("isSeen", false);
-
-                            databaseReference.child("Chats").push().setValue(hashMap);
-                        }
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        progressDialog.dismiss();
-                    }
-                });
+            try {
+                sendPdfMessage(uri);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
 
         }

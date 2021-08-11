@@ -60,10 +60,10 @@ public class PerfilContato extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        String teste = getIntent().getStringExtra("tecnicoId");
+        id_contato = getIntent().getStringExtra("IdContato");
 
         db.collection("Usuarios")
-                .whereEqualTo("apelido", teste)
+                .whereEqualTo("id_usuario", id_contato)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
