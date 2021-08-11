@@ -201,4 +201,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_deletar_Perfil" />
 
+    <ImageButton
+        android:id="@+id/ibtn_informar_trca_funcao"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="20dp"
+        android:background="#00FFFFFF"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="@+id/idFuncaoPerfil"
+        app:layout_constraintStart_toEndOf="@+id/idFuncaoPerfil"
+        app:layout_constraintTop_toTopOf="@+id/idFuncaoPerfil"
+        app:srcCompat="@android:drawable/ic_dialog_info" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

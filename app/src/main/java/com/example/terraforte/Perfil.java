@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -43,6 +44,7 @@ import java.util.List;
 public class Perfil extends AppCompatActivity {
     private TextView nome_completo, nome_usuario, apelido, email, telefone, endereco, senha, funcao;
     private Button bt_deslogar, bt_editar, bt_excluir_conta;
+    private ImageButton ibt_informar;
     private ProgressBar progressBar;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     String usuarioID;
@@ -76,6 +78,13 @@ public class Perfil extends AppCompatActivity {
                 DialogAlert(1);
             }
         });
+
+        ibt_informar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogAlert(3);
+            }
+        });
     }
 
     private void IniciarComponentes() {
@@ -90,6 +99,7 @@ public class Perfil extends AppCompatActivity {
         bt_editar = findViewById(R.id.btn_editar_perfil);
         bt_excluir_conta = findViewById(R.id.btn_deletar_Perfil);
         progressBar = findViewById(R.id.pb_progressBar_perfil);
+        ibt_informar = findViewById(R.id.ibtn_informar_trca_funcao);
     }
 
     @Override
@@ -227,6 +237,17 @@ public class Perfil extends AppCompatActivity {
             dialog.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                }
+            });
+        }else if(numero == 3){
+            dialog.setTitle("TROCAR OCUPAÇÃO");
+            dialog.setMessage("Por padrão todos os usuarios rescebem a função de 'Agricultor'. \n Se desejar fazer a troca para 'Agrônomo' entre em contato pelo email: terraforte@gmail.com");
+            dialog.setIcon(android.R.drawable.ic_dialog_info);
+
+            dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
                 }
             });
         }
