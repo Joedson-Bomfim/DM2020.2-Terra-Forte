@@ -59,7 +59,6 @@ public class Cadastrar extends AppCompatActivity {
         apelido = findViewById(R.id.idApelidoCadastro);
         telefone = findViewById(R.id.idTelefoneCadastro);
         endereco = findViewById(R.id.idEnderecoCadastro);
-        radioGroup = findViewById(R.id.radioiGroupCadastrar);
     }
 
     public void acessarLogin(View v) {
