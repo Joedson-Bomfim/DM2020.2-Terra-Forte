@@ -243,6 +243,10 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void readMessage() {
+        ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Carregando mensagens...");
+        progressDialog.show();
+
         chatList = new ArrayList<>();
         DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("Chats");
         dbRef.addValueEventListener(new ValueEventListener() {
@@ -261,6 +265,8 @@ public class ChatActivity extends AppCompatActivity {
 
                     recyclerView.setAdapter(adapterChat);
                 }
+
+                progressDialog.dismiss();
             }
 
             @Override
