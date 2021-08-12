@@ -114,8 +114,6 @@ public class ChatActivity extends AppCompatActivity {
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-    String timeStamp = UUID.randomUUID().toString();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -129,8 +127,6 @@ public class ChatActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
 
         hisUid = getIntent().getStringExtra("idContato");
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss ", Locale.getDefault());
-        currentDateandTime = sdf.format(new Date());
 
         DocumentReference documentReference = db.collection("Usuarios").document(hisUid);
         documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
@@ -285,8 +281,11 @@ public class ChatActivity extends AppCompatActivity {
     private void sendMessage(String message) {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
 
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss ", Locale.getDefault());
+        currentDateandTime = sdf.format(new Date());
+
         //String timeStamp = String.valueOf(System.currentTimeMillis());
-        //String timeStamp = UUID.randomUUID().toString();
+        String timeStamp = UUID.randomUUID().toString();
 
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("sender",myUid);
@@ -306,9 +305,12 @@ public class ChatActivity extends AppCompatActivity {
         progressDialog.setMessage("Enviando imagem...");
         progressDialog.show();
 
-        //String timeStamp = ""+UUID.randomUUID().toString();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss ", Locale.getDefault());
+        currentDateandTime = sdf.format(new Date());
 
-        String fileNameAndPath = "ChatImage/"+"post_"+timeStamp;
+        String timeStamp = ""+UUID.randomUUID().toString();
+
+        String fileNameAndPath = "ChatImage/"+"post_"+currentDateandTime;
 
         Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), image_rui);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -352,6 +354,11 @@ public class ChatActivity extends AppCompatActivity {
         ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Enviando documento...");
         progressDialog.show();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss ", Locale.getDefault());
+        currentDateandTime = sdf.format(new Date());
+
+        String timeStamp = UUID.randomUUID().toString();
 
         if(escolhaDocumento) {
             String fileNameAndPath = "ChatImage/"+"doc_"+timeStamp;
